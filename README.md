@@ -72,6 +72,21 @@ NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... node scripts/crea
 
 Se ricevi errore "Could not find the table 'public.staff_users'", la tabella non e ancora stata creata nel progetto Supabase corretto.
 
+### Policy Supabase (RLS)
+
+Applica anche le policy RLS dal file [supabase/policies.sql](supabase/policies.sql).
+
+Scelta consigliata per sicurezza:
+
+- `staff_users`: nessun accesso pubblico (`anon`/`authenticated` bloccati), accesso solo server con `SUPABASE_SERVICE_ROLE_KEY`
+- `slot_overrides`: lettura pubblica consentita, scrittura solo server (service role)
+
+Se usi API server-side per operazioni sensibili (`/api/staff/*`, CRUD admin), configura in `.env.local` anche:
+
+```bash
+SUPABASE_SERVICE_ROLE_KEY=...
+```
+
 ## Gestione slot orari per data
 
 Per abilitare aggiunta/rimozione slot giornalieri, crea la tabella `slot_overrides` in Supabase:
