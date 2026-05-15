@@ -3,26 +3,29 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/app/lib/supabase'
 import { useRouter, useParams } from 'next/navigation'
 
+type Barber = {
+  id: number
+  name: string
+  service_price: number
+}
+
 export default function BookingPage() {
   const params = useParams() as { id?: string }
   const id = params?.id
   
-  const [barber, setBarber] = useState<any>(null)
+  const [barber, setBarber] = useState<Barber | null>(null)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [availableSlots, setAvailableSlots] = useState<string[]>([])
+  const [loadingSlots, setLoadingSlots] = useState(false)
+  const [slotsError, setSlotsError] = useState<string | null>(null)
   
   // NUOVI STATI PER I DATI DEL CLIENTE
   const [customerName, setCustomerName] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
   
   const router = useRouter()
-
-  const timeSlots = [
-    "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-    "12:00", "12:30", "14:00", "14:30", "15:00", "15:30",
-    "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"
-  ]
 
   useEffect(() => {
     async function fetchBarber() {
@@ -32,11 +35,62 @@ export default function BookingPage() {
     fetchBarber()
   }, [id])
 
+  useEffect(() => {
+    if (!date || !id) return
+
+    let cancelled = false
+
+    async function fetchSlots() {
+      setLoadingSlots(true)
+      setSlotsError(null)
+
+      try {
+        const response = await fetch(`/api/slots?date=${date}&barberId=${Number(id)}`)
+        const payload = await response.json()
+
+        if (!response.ok) {
+          if (!cancelled) {
+            setSlotsError(payload.error ?? 'Errore nel recupero degli slot.')
+            setAvailableSlots([])
+          }
+          return
+        }
+
+        if (!cancelled) {
+          const slots = Array.isArray(payload.availableSlots) ? payload.availableSlots : []
+          setAvailableSlots(slots)
+          setTime((current) => (slots.includes(current) ? current : ''))
+        }
+      } catch {
+        if (!cancelled) {
+          setSlotsError('Errore di rete nel recupero degli slot.')
+          setAvailableSlots([])
+        }
+      } finally {
+        if (!cancelled) setLoadingSlots(false)
+      }
+    }
+
+    fetchSlots()
+
+    return () => {
+      cancelled = true
+    }
+  }, [date, id])
+
   async function handleBooking() {
     if (isSubmitting) return
 
+    if (!barber) {
+      return alert('Barbiere non disponibile al momento.')
+    }
+
     if (!date || !time || !customerName || !customerPhone) {
       return alert("Compila tutti i campi: nome, telefono, data e ora!")
+    }
+
+    if (!availableSlots.includes(time)) {
+      return alert('Questo orario non e piu disponibile. Seleziona un altro slot.')
     }
 
     setIsSubmitting(true)
@@ -120,7 +174,12 @@ export default function BookingPage() {
         <input 
           type="date" 
           className="w-full p-3 border rounded-lg"
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => {
+            setAvailableSlots([])
+            setSlotsError(null)
+            setDate(e.target.value)
+            setTime('')
+          }}
           min={new Date().toISOString().split('T')[0]}
         />
       </div>
@@ -128,20 +187,28 @@ export default function BookingPage() {
       {/* Scelta Ora */}
       {date && (
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">Scegli l'orario</label>
-          <div className="grid grid-cols-4 gap-2">
-            {timeSlots.map(slot => (
-              <button 
-                key={slot}
-                onClick={() => setTime(slot)}
-                className={`p-2 rounded-lg border text-xs font-bold transition ${
-                  time === slot ? 'bg-black text-white' : 'bg-white hover:bg-gray-100'
-                }`}
-              >
-                {slot}
-              </button>
-            ))}
-          </div>
+          <label className="block text-sm font-medium mb-2">Scegli l&apos;orario</label>
+          {loadingSlots ? (
+            <div className="rounded-lg border bg-gray-50 p-3 text-sm text-gray-600">Caricamento slot disponibili...</div>
+          ) : slotsError ? (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{slotsError}</div>
+          ) : availableSlots.length === 0 ? (
+            <div className="rounded-lg border bg-gray-50 p-3 text-sm text-gray-600">Nessuno slot disponibile per questa data.</div>
+          ) : (
+            <div className="grid grid-cols-4 gap-2">
+              {availableSlots.map(slot => (
+                <button 
+                  key={slot}
+                  onClick={() => setTime(slot)}
+                  className={`p-2 rounded-lg border text-xs font-bold transition ${
+                    time === slot ? 'bg-black text-white' : 'bg-white hover:bg-gray-100'
+                  }`}
+                >
+                  {slot}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { isStaffCookieValue, STAFF_COOKIE_NAME } from '@/app/lib/staffAuth'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 
@@ -35,6 +36,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+    return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
+  }
+
 	const body = await request.json().catch(() => null)
 	const name = typeof body?.name === 'string' ? body.name.trim() : ''
 	const servicePrice = Number(body?.service_price)
@@ -53,6 +58,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+	if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+		return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
+	}
+
 	const idParam = request.nextUrl.searchParams.get('id')
 	const id = Number(idParam)
 

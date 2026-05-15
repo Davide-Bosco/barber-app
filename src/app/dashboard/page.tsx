@@ -1,22 +1,71 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/app/lib/supabase'
-import { Users, CalendarCheck, Clock, Trash2 } from 'lucide-react'
+import { Users, CalendarCheck, Trash2 } from 'lucide-react'
+
+type Booking = {
+  id: number
+  appointment_time: string
+  customer_name: string
+  customer_phone: string
+  barbers: { name: string } | { name: string }[] | null
+}
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState<any[]>([])
+  const [bookings, setBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  useEffect(() => { fetchBookings() }, [])
-
-  async function fetchBookings() {
-    setLoading(true)
-    const { data } = await supabase
+  const fetchBookings = useCallback(async () => {
+    const { data, error } = await supabase
       .from('bookings')
       .select(`id, appointment_time, customer_name, customer_phone, barbers ( name )`)
       .order('appointment_time', { ascending: true })
-    if (data) setBookings(data)
+
+    if (error) {
+      setErrorMessage('Errore nel caricamento delle prenotazioni.')
+      setLoading(false)
+      return
+    }
+
+    setErrorMessage(null)
+    setBookings((data ?? []) as Booking[])
     setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchBookings()
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [fetchBookings])
+
+  async function deleteBooking(id: number) {
+    if (deletingId !== null) return
+
+    const confirmDelete = window.confirm('Vuoi davvero cancellare questa prenotazione?')
+    if (!confirmDelete) return
+
+    setDeletingId(id)
+    setErrorMessage(null)
+
+    try {
+      const response = await fetch(`/api/bookings?id=${id}`, { method: 'DELETE' })
+      const payload = await response.json()
+
+      if (!response.ok) {
+        setErrorMessage(payload.error ?? 'Errore durante la cancellazione della prenotazione.')
+        return
+      }
+
+      setBookings((prev) => prev.filter((booking) => booking.id !== id))
+    } catch {
+      setErrorMessage('Errore di rete durante la cancellazione della prenotazione.')
+    } finally {
+      setDeletingId(null)
+    }
   }
 
   return (
@@ -38,6 +87,18 @@ export default function Dashboard() {
       </div>
 
       <h2 className="text-xl font-bold mb-4">Prossimi Appuntamenti</h2>
+
+      {errorMessage && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+          {errorMessage}
+        </div>
+      )}
+
+      {loading && (
+        <div className="mb-4 rounded-lg border bg-white p-4 text-gray-600">
+          Caricamento appuntamenti...
+        </div>
+      )}
       
       <div className="bg-white rounded-3xl border shadow-sm overflow-hidden">
         <table className="w-full text-left">
@@ -56,9 +117,15 @@ export default function Dashboard() {
                 <td className="p-4 text-sm">
                    {new Date(b.appointment_time).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                 </td>
-                <td className="p-4"><span className="bg-gray-100 px-2 py-1 rounded text-xs">{b.barbers?.name}</span></td>
+                <td className="p-4"><span className="bg-gray-100 px-2 py-1 rounded text-xs">{Array.isArray(b.barbers) ? b.barbers[0]?.name : b.barbers?.name}</span></td>
                 <td className="p-4 text-right">
-                  <button onClick={() => {/* aggiungi delete logic qui */}} className="text-red-400 hover:text-red-600">
+                  <button
+                    type="button"
+                    onClick={() => deleteBooking(b.id)}
+                    disabled={deletingId === b.id}
+                    className="text-red-400 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Cancella prenotazione"
+                  >
                     <Trash2 size={18} />
                   </button>
                 </td>

@@ -34,3 +34,47 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Configurazione accesso staff
+
+Imposta queste variabili ambiente su locale e su Vercel:
+
+- `STAFF_ACCESS_CODE`: codice usato dallo staff nella pagina `/staff-login`
+- `STAFF_SESSION_TOKEN` (opzionale ma consigliato): token usato per il cookie server-side
+
+Esempio:
+
+```bash
+STAFF_ACCESS_CODE=un_codice_lungo_e_sicuro
+STAFF_SESSION_TOKEN=un_token_diverso_dal_codice
+```
+
+Le pagine `/dashboard` e `/admin` e le API di modifica (barbieri, slot, cancellazione prenotazioni) sono accessibili solo con sessione staff attiva.
+
+## Gestione slot orari per data
+
+Per abilitare aggiunta/rimozione slot giornalieri, crea la tabella `slot_overrides` in Supabase:
+
+```sql
+create table if not exists public.slot_overrides (
+	id bigint generated always as identity primary key,
+	slot_date date not null,
+	slot_time text not null,
+	is_available boolean not null,
+	created_at timestamptz not null default now(),
+	unique (slot_date, slot_time)
+);
+```
+
+Effetto nel booking:
+
+- slot standard disattivati in un giorno non compaiono ai clienti
+- slot extra aggiunti in un giorno compaiono ai clienti
+- gli slot gia prenotati non sono selezionabili
+
+## PWA su mobile
+
+- Android: il browser puo mostrare il prompt installazione in modo non immediato o non ripetuto spesso
+- iOS Safari: non esiste prompt automatico, serve usare Condividi > Aggiungi a Home
+
+Nell'app e stato aggiunto un banner installabile che guida sia Android sia iOS per rendere il comportamento piu chiaro.

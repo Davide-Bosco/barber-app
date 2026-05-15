@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
 import Link from "next/link";
 import { Home, CalendarDays, Users, Scissors } from "lucide-react";
 import IubendaLinks from "./components/IubendaLinks";
+import PwaInstallPrompt from "./components/PwaInstallPrompt";
+import { isStaffCookieValue, STAFF_COOKIE_NAME } from "@/app/lib/staffAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,13 +15,29 @@ export const metadata: Metadata = {
   title: "Barber Booking",
   description: "Prenota il tuo taglio velocemente",
   manifest: "/manifest.json", // Servirà per la PWA nel prossimo step!
+  applicationName: "Barber Booking",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Barber Booking",
+  },
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies()
+  const isStaff = isStaffCookieValue(cookieStore.get(STAFF_COOKIE_NAME)?.value)
+
   return (
     <html lang="it">
       <body className={inter.className}>
@@ -37,14 +56,28 @@ export default function RootLayout({
               <Link href="/" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
                 <Home size={20} /> <span className="hidden sm:inline">Prenota</span>
               </Link>
-              
-              <Link href="/dashboard" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
-                <CalendarDays size={20} /> <span className="hidden sm:inline">Appuntamenti</span>
-              </Link>
-              
-              <Link href="/admin" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
-                <Users size={20} /> <span className="hidden sm:inline">Staff</span>
-              </Link>
+
+              {isStaff ? (
+                <>
+                  <Link href="/dashboard" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
+                    <CalendarDays size={20} /> <span className="hidden sm:inline">Appuntamenti</span>
+                  </Link>
+
+                  <Link href="/admin" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
+                    <Users size={20} /> <span className="hidden sm:inline">Staff</span>
+                  </Link>
+
+                  <form action="/api/staff/logout" method="post">
+                    <button type="submit" className="cursor-pointer hover:text-gray-300 transition font-medium">
+                      Esci
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <Link href="/staff-login" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
+                  <Users size={20} /> <span className="hidden sm:inline">Area Staff</span>
+                </Link>
+              )}
             </div>
 
           </div>
@@ -55,6 +88,8 @@ export default function RootLayout({
         <main className="min-h-screen bg-gray-50 pb-20">
           {children}
         </main>
+
+        <PwaInstallPrompt />
 
         {/* FOOTER CON LINK IUBENDA */}
         <IubendaLinks />

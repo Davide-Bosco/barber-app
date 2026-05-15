@@ -1,11 +1,18 @@
 "use client"
 import { useEffect, useState } from 'react'
-import { Trash2, UserPlus, Euro } from 'lucide-react'
+import { Trash2, UserPlus, Euro, Clock3 } from 'lucide-react'
 
 type Barber = {
 	id: number
 	name: string
 	service_price: number
+}
+
+type SlotsPayload = {
+  availableSlots: string[]
+  removedDefaultSlots: string[]
+  extraSlots: string[]
+  warning: string | null
 }
 
 export default function AdminStaff() {
@@ -14,10 +21,25 @@ export default function AdminStaff() {
   const [newPrice, setNewPrice] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [slotDate, setSlotDate] = useState(new Date().toISOString().split('T')[0])
+  const [slotTime, setSlotTime] = useState('')
+  const [slots, setSlots] = useState<SlotsPayload>({
+    availableSlots: [],
+    removedDefaultSlots: [],
+    extraSlots: [],
+    warning: null,
+  })
+  const [slotsError, setSlotsError] = useState<string | null>(null)
+  const [slotsLoading, setSlotsLoading] = useState(false)
+  const [slotActionLoading, setSlotActionLoading] = useState(false)
 
   useEffect(() => {
     fetchBarbers()
   }, [])
+
+  useEffect(() => {
+    fetchSlots(slotDate)
+  }, [slotDate])
 
   async function fetchBarbers() {
     setErrorMessage(null)
@@ -30,6 +52,32 @@ export default function AdminStaff() {
     }
 
     setBarbers(payload.data ?? [])
+  }
+
+  async function fetchSlots(date: string) {
+    setSlotsLoading(true)
+    setSlotsError(null)
+
+    try {
+      const response = await fetch(`/api/slots?date=${date}`)
+      const payload = await response.json()
+
+      if (!response.ok) {
+        setSlotsError(payload.error ?? 'Errore nel caricamento degli slot.')
+        return
+      }
+
+      setSlots({
+        availableSlots: payload.availableSlots ?? [],
+        removedDefaultSlots: payload.removedDefaultSlots ?? [],
+        extraSlots: payload.extraSlots ?? [],
+        warning: payload.warning ?? null,
+      })
+    } catch {
+      setSlotsError('Errore di rete nel caricamento degli slot.')
+    } finally {
+      setSlotsLoading(false)
+    }
   }
 
   async function addBarber(e: React.FormEvent) {
@@ -70,6 +118,68 @@ export default function AdminStaff() {
 
       await fetchBarbers()
     }
+  }
+
+  async function saveSlotOverride(date: string, time: string, isAvailable: boolean) {
+    setSlotActionLoading(true)
+    setSlotsError(null)
+
+    try {
+      const response = await fetch('/api/slots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date, time, is_available: isAvailable }),
+      })
+      const payload = await response.json()
+
+      if (!response.ok) {
+        setSlotsError(payload.error ?? 'Errore durante il salvataggio slot.')
+        return
+      }
+
+      await fetchSlots(date)
+      if (isAvailable) {
+        setSlotTime('')
+      }
+    } catch {
+      setSlotsError('Errore di rete durante il salvataggio slot.')
+    } finally {
+      setSlotActionLoading(false)
+    }
+  }
+
+  async function deleteSlotOverride(date: string, time: string) {
+    setSlotActionLoading(true)
+    setSlotsError(null)
+
+    try {
+      const response = await fetch(`/api/slots?date=${date}&time=${encodeURIComponent(time)}`, {
+        method: 'DELETE',
+      })
+      const payload = await response.json()
+
+      if (!response.ok) {
+        setSlotsError(payload.error ?? 'Errore durante il ripristino slot.')
+        return
+      }
+
+      await fetchSlots(date)
+    } catch {
+      setSlotsError('Errore di rete durante il ripristino slot.')
+    } finally {
+      setSlotActionLoading(false)
+    }
+  }
+
+  async function handleAddSlot(event: React.FormEvent) {
+    event.preventDefault()
+
+    if (!slotTime) {
+      setSlotsError('Inserisci un orario valido in formato HH:mm.')
+      return
+    }
+
+    await saveSlotOverride(slotDate, slotTime, true)
   }
 
   return (
@@ -129,6 +239,123 @@ export default function AdminStaff() {
             </button>
           </div>
         ))}
+      </div>
+
+      <div className="mt-10 rounded-2xl border bg-white p-5 shadow-sm">
+        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold">
+          <Clock3 size={20} /> Gestione Slot Giornalieri
+        </h2>
+
+        <div className="mb-4 max-w-xs">
+          <label className="mb-1 block text-sm font-medium">Data da modificare</label>
+          <input
+            type="date"
+            value={slotDate}
+            onChange={(event) => setSlotDate(event.target.value)}
+            className="w-full rounded border p-2"
+          />
+        </div>
+
+        <form onSubmit={handleAddSlot} className="mb-5 flex flex-col gap-3 rounded-xl border bg-gray-50 p-4 md:flex-row md:items-end">
+          <div>
+            <label className="mb-1 block text-sm font-medium">Nuovo slot da aggiungere</label>
+            <input
+              type="time"
+              value={slotTime}
+              onChange={(event) => setSlotTime(event.target.value)}
+              className="rounded border p-2"
+              step={1800}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={slotActionLoading}
+            className="rounded-lg bg-black px-5 py-2 font-medium text-white hover:bg-gray-800 disabled:opacity-60"
+          >
+            Aggiungi slot
+          </button>
+        </form>
+
+        {slots.warning && (
+          <div className="mb-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800">
+            {slots.warning}
+          </div>
+        )}
+
+        {slotsError && (
+          <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+            {slotsError}
+          </div>
+        )}
+
+        {slotsLoading ? (
+          <div className="rounded-lg border bg-gray-50 p-3 text-sm text-gray-600">Caricamento slot...</div>
+        ) : (
+          <>
+            <div className="mb-4">
+              <p className="mb-2 text-sm font-semibold">Slot prenotabili ({slots.availableSlots.length})</p>
+              <div className="flex flex-wrap gap-2">
+                {slots.availableSlots.length === 0 ? (
+                  <span className="text-sm text-gray-500">Nessuno slot disponibile.</span>
+                ) : (
+                  slots.availableSlots.map((time) => (
+                    <button
+                      key={time}
+                      type="button"
+                      onClick={() => saveSlotOverride(slotDate, time, false)}
+                      disabled={slotActionLoading}
+                      className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm text-red-700 hover:bg-red-100 disabled:opacity-60"
+                    >
+                      {time} - Disattiva
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <p className="mb-2 text-sm font-semibold">Slot standard rimossi</p>
+              <div className="flex flex-wrap gap-2">
+                {slots.removedDefaultSlots.length === 0 ? (
+                  <span className="text-sm text-gray-500">Nessuno slot standard rimosso.</span>
+                ) : (
+                  slots.removedDefaultSlots.map((time) => (
+                    <button
+                      key={time}
+                      type="button"
+                      onClick={() => deleteSlotOverride(slotDate, time)}
+                      disabled={slotActionLoading}
+                      className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-sm text-green-700 hover:bg-green-100 disabled:opacity-60"
+                    >
+                      {time} - Ripristina
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div>
+              <p className="mb-2 text-sm font-semibold">Slot extra aggiunti</p>
+              <div className="flex flex-wrap gap-2">
+                {slots.extraSlots.length === 0 ? (
+                  <span className="text-sm text-gray-500">Nessuno slot extra.</span>
+                ) : (
+                  slots.extraSlots.map((time) => (
+                    <button
+                      key={time}
+                      type="button"
+                      onClick={() => deleteSlotOverride(slotDate, time)}
+                      disabled={slotActionLoading}
+                      className="rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800 hover:bg-gray-200 disabled:opacity-60"
+                    >
+                      {time} - Rimuovi extra
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
