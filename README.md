@@ -51,6 +51,27 @@ STAFF_SESSION_TOKEN=un_token_diverso_dal_codice
 
 Le pagine `/dashboard` e `/admin` e le API di modifica (barbieri, slot, cancellazione prenotazioni) sono accessibili solo con sessione staff attiva.
 
+### Tabella staff users (necessaria)
+
+Per login con `username + codice`, crea in Supabase la tabella `staff_users`:
+
+```sql
+create table if not exists public.staff_users (
+	id bigint generated always as identity primary key,
+	username text not null unique,
+	password_hash text not null,
+	created_at timestamptz not null default now()
+);
+```
+
+Poi puoi creare il primo utente staff con lo script locale:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... node scripts/create_staff_user.js example_admin ChangeMe123!
+```
+
+Se ricevi errore "Could not find the table 'public.staff_users'", la tabella non e ancora stata creata nel progetto Supabase corretto.
+
 ## Gestione slot orari per data
 
 Per abilitare aggiunta/rimozione slot giornalieri, crea la tabella `slot_overrides` in Supabase:
