@@ -114,3 +114,12 @@ Effetto nel booking:
 - iOS Safari: non esiste prompt automatico, serve usare Condividi > Aggiungi a Home
 
 Nell'app e stato aggiunto un banner installabile che guida sia Android sia iOS per rendere il comportamento piu chiaro.
+
+## Promemoria WhatsApp automatico
+
+Il reminder giornaliero usa il cron di Vercel su [src/app/api/barbers/cron/route.ts](src/app/api/barbers/cron/route.ts) e deve puntare a:
+
+- `NEXT_PUBLIC_SITE_URL` impostata sul dominio vero in produzione
+- `CRON_SECRET` opzionale ma consigliato per proteggere l'endpoint
+
+Il cron e schedulato su `vercel.json` alle 08:00 e invia il promemoria alle prenotazioni confermate della giornata.

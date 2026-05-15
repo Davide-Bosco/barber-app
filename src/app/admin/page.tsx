@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react'
 import { Trash2, UserPlus, Euro, Clock3 } from 'lucide-react'
+import { Key } from 'lucide-react'
 
 type Barber = {
 	id: number
@@ -32,9 +33,17 @@ export default function AdminStaff() {
   const [slotsError, setSlotsError] = useState<string | null>(null)
   const [slotsLoading, setSlotsLoading] = useState(false)
   const [slotActionLoading, setSlotActionLoading] = useState(false)
+  const [staffUsers, setStaffUsers] = useState<{ id: number; username: string }[]>([])
+  const [newStaffUsername, setNewStaffUsername] = useState('')
+  const [newStaffPassword, setNewStaffPassword] = useState('')
+  const [staffError, setStaffError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchBarbers()
+  }, [])
+
+  useEffect(() => {
+    fetchStaffUsers()
   }, [])
 
   useEffect(() => {
@@ -52,6 +61,65 @@ export default function AdminStaff() {
     }
 
     setBarbers(payload.data ?? [])
+  }
+
+  async function fetchStaffUsers() {
+    setStaffError(null)
+    try {
+      const response = await fetch('/api/staff/users')
+      const payload = await response.json()
+      if (!response.ok) {
+        setStaffError(payload.error ?? 'Errore nel caricamento utenti staff.')
+        return
+      }
+      setStaffUsers(payload.data ?? [])
+    } catch {
+      setStaffError('Errore di rete nel caricamento utenti staff.')
+    }
+  }
+
+  async function createStaffUser(e: React.FormEvent) {
+    e.preventDefault()
+    setStaffError(null)
+    if (!newStaffUsername || newStaffPassword.length < 8) {
+      setStaffError('Inserisci username e password (min 8 caratteri).')
+      return
+    }
+
+    try {
+      const response = await fetch('/api/staff/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: newStaffUsername, password: newStaffPassword }),
+      })
+      const payload = await response.json()
+      if (!response.ok) {
+        setStaffError(payload.error ?? 'Errore durante la creazione utente.')
+        return
+      }
+
+      setNewStaffPassword('')
+      setNewStaffUsername('')
+      await fetchStaffUsers()
+    } catch {
+      setStaffError('Errore di rete durante la creazione utente.')
+    }
+  }
+
+  async function deleteStaff(id: number) {
+    if (!confirm('Eliminare questo utente staff?')) return
+    setStaffError(null)
+    try {
+      const response = await fetch(`/api/staff/users?id=${id}`, { method: 'DELETE' })
+      const payload = await response.json()
+      if (!response.ok) {
+        setStaffError(payload.error ?? 'Errore durante l\'eliminazione utente.')
+        return
+      }
+      await fetchStaffUsers()
+    } catch {
+      setStaffError('Errore di rete durante l\'eliminazione utente.')
+    }
   }
 
   async function fetchSlots(date: string) {
@@ -239,6 +307,47 @@ export default function AdminStaff() {
             </button>
           </div>
         ))}
+      </div>
+
+      {/* GESTIONE UTENTI STAFF */}
+      <div className="mt-10 rounded-2xl border bg-white p-5 shadow-sm">
+        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold">
+          <Key size={20} /> Gestione Utenti Staff
+        </h2>
+
+        {staffError && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{staffError}</div>
+        )}
+
+        <form onSubmit={createStaffUser} className="mb-4 flex flex-col gap-3 md:flex-row md:items-end">
+          <div className="flex-1">
+            <label className="block text-sm font-medium">Username</label>
+            <input value={newStaffUsername} onChange={e => setNewStaffUsername(e.target.value)} className="w-full rounded border p-2" />
+          </div>
+          <div className="w-48">
+            <label className="block text-sm font-medium">Password</label>
+            <input type="password" value={newStaffPassword} onChange={e => setNewStaffPassword(e.target.value)} className="w-full rounded border p-2" />
+          </div>
+          <div>
+            <button className="rounded-lg bg-black px-5 py-2 font-medium text-white hover:bg-gray-800">Crea Utente</button>
+          </div>
+        </form>
+
+        <div>
+          <p className="mb-2 text-sm font-semibold">Utenti esistenti</p>
+          <div className="grid gap-2">
+            {staffUsers.length === 0 ? (
+              <div className="text-sm text-gray-500">Nessun utente staff presente.</div>
+            ) : (
+              staffUsers.map(u => (
+                <div key={u.id} className="flex items-center justify-between rounded border p-3">
+                  <div className="font-medium">{u.username}</div>
+                  <button onClick={() => deleteStaff(u.id)} className="text-red-500">Elimina</button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="mt-10 rounded-2xl border bg-white p-5 shadow-sm">
