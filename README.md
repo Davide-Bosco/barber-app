@@ -145,3 +145,17 @@ Il QR punta sempre alla home `/` dove i clienti prenotano. Perfetto da:
 - Stampare e mettere in negozio
 - Condividere su Instagram
 - Mettere su WhatsApp
+
+## Privacy, Cookie e Iubenda
+
+Il sito ha pagine placeholder per Privacy (`/privacy`) e Cookie Policy (`/cookies`).
+
+Per configurare correttamente i documenti legali:
+
+1. Accedi a [iubenda.com](https://www.iubenda.com)
+2. Crea un nuovo progetto per il tuo sito
+3. Copia l'ID del progetto (visibile nell'URL: `privacy-policy/<ID>`)
+4. Imposta su Vercel: `NEXT_PUBLIC_IUBENDA_PROJECT_ID=<il_tuo_ID>`
+5. Aggiorna [src/app/components/IubendaLinks.tsx](src/app/components/IubendaLinks.tsx) se serve customize
+
+Di default il sito usa ID placeholder `29146288` (puoi lasciarlo durante lo sviluppo, ma deve essere aggiornato per la produzione).
