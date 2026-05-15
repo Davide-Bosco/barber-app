@@ -123,3 +123,25 @@ Il reminder giornaliero usa il cron di Vercel su [src/app/api/barbers/cron/route
 - `CRON_SECRET` opzionale ma consigliato per proteggere l'endpoint
 
 Il cron e schedulato su `vercel.json` alle 08:00 e invia il promemoria alle prenotazioni confermate della giornata.
+
+Variabili da mettere su Vercel:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://tuodominio.it
+CRON_SECRET=un_token_lungo_e_sicuro
+GREENAPI_URL=https://7107.api.greenapi.com
+GREENAPI_ID_INSTANCE=...
+GREENAPI_TOKEN=...
+```
+
+## QR Code per prenotazioni
+
+Il barbiere puo raggiungere il QR code su:
+
+- Pagina interattiva: `/qr` (visibile, scaricabile, condivisibile)
+- Immagine PNG pura: `/api/qr` (per integrazioni)
+
+Il QR punta sempre alla home `/` dove i clienti prenotano. Perfetto da:
+- Stampare e mettere in negozio
+- Condividere su Instagram
+- Mettere su WhatsApp
