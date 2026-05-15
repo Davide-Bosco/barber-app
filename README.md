@@ -51,6 +51,42 @@ STAFF_SESSION_TOKEN=un_token_diverso_dal_codice
 
 Le pagine `/dashboard` e `/admin` e le API di modifica (barbieri, slot, cancellazione prenotazioni) sono accessibili solo con sessione staff attiva.
 
+### Tabella staff users (necessaria)
+
+Per login con `username + codice`, crea in Supabase la tabella `staff_users`:
+
+```sql
+create table if not exists public.staff_users (
+	id bigint generated always as identity primary key,
+	username text not null unique,
+	password_hash text not null,
+	created_at timestamptz not null default now()
+);
+```
+
+Poi puoi creare il primo utente staff con lo script locale:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... node scripts/create_staff_user.js example_admin ChangeMe123!
+```
+
+Se ricevi errore "Could not find the table 'public.staff_users'", la tabella non e ancora stata creata nel progetto Supabase corretto.
+
+### Policy Supabase (RLS)
+
+Applica anche le policy RLS dal file [supabase/policies.sql](supabase/policies.sql).
+
+Scelta consigliata per sicurezza:
+
+- `staff_users`: nessun accesso pubblico (`anon`/`authenticated` bloccati), accesso solo server con `SUPABASE_SERVICE_ROLE_KEY`
+- `slot_overrides`: lettura pubblica consentita, scrittura solo server (service role)
+
+Se usi API server-side per operazioni sensibili (`/api/staff/*`, CRUD admin), configura in `.env.local` anche:
+
+```bash
+SUPABASE_SERVICE_ROLE_KEY=...
+```
+
 ## Gestione slot orari per data
 
 Per abilitare aggiunta/rimozione slot giornalieri, crea la tabella `slot_overrides` in Supabase:
@@ -78,3 +114,48 @@ Effetto nel booking:
 - iOS Safari: non esiste prompt automatico, serve usare Condividi > Aggiungi a Home
 
 Nell'app e stato aggiunto un banner installabile che guida sia Android sia iOS per rendere il comportamento piu chiaro.
+
+## Promemoria WhatsApp automatico
+
+Il reminder giornaliero usa il cron di Vercel su [src/app/api/barbers/cron/route.ts](src/app/api/barbers/cron/route.ts) e deve puntare a:
+
+- `NEXT_PUBLIC_SITE_URL` impostata sul dominio vero in produzione
+- `CRON_SECRET` opzionale ma consigliato per proteggere l'endpoint
+
+Il cron e schedulato su `vercel.json` alle 08:00 e invia il promemoria alle prenotazioni confermate della giornata.
+
+Variabili da mettere su Vercel:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://tuodominio.it
+CRON_SECRET=un_token_lungo_e_sicuro
+GREENAPI_URL=https://7107.api.greenapi.com
+GREENAPI_ID_INSTANCE=...
+GREENAPI_TOKEN=...
+```
+
+## QR Code per prenotazioni
+
+Il barbiere puo raggiungere il QR code su:
+
+- Pagina interattiva: `/qr` (visibile, scaricabile, condivisibile)
+- Immagine PNG pura: `/api/qr` (per integrazioni)
+
+Il QR punta sempre alla home `/` dove i clienti prenotano. Perfetto da:
+- Stampare e mettere in negozio
+- Condividere su Instagram
+- Mettere su WhatsApp
+
+## Privacy, Cookie e Iubenda
+
+Il sito ha pagine placeholder per Privacy (`/privacy`) e Cookie Policy (`/cookies`).
+
+Per configurare correttamente i documenti legali:
+
+1. Accedi a [iubenda.com](https://www.iubenda.com)
+2. Crea un nuovo progetto per il tuo sito
+3. Copia l'ID del progetto (visibile nell'URL: `privacy-policy/<ID>`)
+4. Imposta su Vercel: `NEXT_PUBLIC_IUBENDA_PROJECT_ID=<il_tuo_ID>`
+5. Aggiorna [src/app/components/IubendaLinks.tsx](src/app/components/IubendaLinks.tsx) se serve customize
+
+Di default il sito usa ID placeholder `29146288` (puoi lasciarlo durante lo sviluppo, ma deve essere aggiornato per la produzione).
