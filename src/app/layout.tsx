@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Home, CalendarDays, Users, Scissors } from "lucide-react";
 import IubendaLinks from "./components/IubendaLinks";
 import PwaInstallPrompt from "./components/PwaInstallPrompt";
-import { isStaffCookieValue, STAFF_COOKIE_NAME } from "@/app/lib/staffAuth";
+import { isStaffCookieValue, STAFF_COOKIE_NAME, getStaffUsernameFromCookie } from "@/app/lib/staffAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +37,7 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies()
   const isStaff = isStaffCookieValue(cookieStore.get(STAFF_COOKIE_NAME)?.value)
+  const staffUsername = getStaffUsernameFromCookie(cookieStore.get(STAFF_COOKIE_NAME)?.value)
 
   return (
     <html lang="it">
@@ -67,11 +68,14 @@ export default async function RootLayout({
                     <Users size={20} /> <span className="hidden sm:inline">Staff</span>
                   </Link>
 
-                  <form action="/api/staff/logout" method="post">
-                    <button type="submit" className="cursor-pointer hover:text-gray-300 transition font-medium">
-                      Esci
-                    </button>
-                  </form>
+                    <div className="flex items-center gap-4">
+                      {staffUsername && <span className="hidden sm:inline text-sm">Ciao, {staffUsername}</span>}
+                      <form action="/api/staff/logout" method="post">
+                        <button type="submit" className="cursor-pointer hover:text-gray-300 transition font-medium">
+                          Esci
+                        </button>
+                      </form>
+                    </div>
                 </>
               ) : (
                 <Link href="/staff-login" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">

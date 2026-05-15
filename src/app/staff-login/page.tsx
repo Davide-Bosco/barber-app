@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function StaffLoginPage() {
   const [code, setCode] = useState('')
+  const [username, setUsername] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -21,7 +22,7 @@ export default function StaffLoginPage() {
       const response = await fetch('/api/staff/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, username }),
       })
 
       const payload = await response.json()
@@ -51,6 +52,18 @@ export default function StaffLoginPage() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <label className="block text-sm font-medium">
+          Nome utente
+          <input
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            className="mt-1 w-full rounded-lg border p-3"
+            autoComplete="username"
+            required
+          />
+        </label>
+
         <label className="block text-sm font-medium">
           Codice staff
           <input
