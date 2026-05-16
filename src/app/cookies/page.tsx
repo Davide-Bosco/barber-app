@@ -4,50 +4,98 @@ import { ArrowLeft, Cookie } from 'lucide-react'
 
 export default function CookiesPage() {
   return (
-    <div className="max-w-2xl mx-auto p-6 md:p-10">
-      <Link href="/" className="flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-6 font-semibold">
-        <ArrowLeft size={20} />
-        Torna alla Home
-      </Link>
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#1a1a1a] to-[#2a2a2a]">
+      <div className="max-w-3xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        
+        {/* Back Button */}
+        <Link href="/" className="inline-flex items-center gap-2 text-[#d4af37] hover:text-[#f4e4c1] transition-colors mb-8 font-semibold group">
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+          Torna alla Home
+        </Link>
 
-      <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-        <div className="flex items-center gap-3 mb-6">
-          <Cookie size={28} className="text-gray-700" />
-          <h1 className="text-3xl font-bold text-gray-900">Informativa Cookies</h1>
+        {/* Header */}
+        <div className="mb-10 animate-fade-in-up">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-3 rounded-lg">
+              <Cookie size={28} className="text-[#0a0a0a]" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
+              Informativa Cookies
+            </h1>
+          </div>
         </div>
 
-        <div className="prose prose-sm max-w-none text-gray-700 space-y-4 mb-8">
-          <p>
-            Utilizziamo i cookie per migliorare l'esperienza sul nostro sito. Scopri come gestiamo e utilizziamo i tuoi dati.
+        {/* Content Card */}
+        <div className="rounded-2xl border border-[#d4af37]/30 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-8 md:p-10 backdrop-blur-sm space-y-6">
+          
+          <p className="text-[#f8f8f8] text-lg leading-relaxed">
+            Utilizziamo i cookie per migliorare l'esperienza sul nostro sito. Scopri come gestiamo e utilizziamo i tuoi dati per personalizzare il tuo servizio.
           </p>
 
-          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 my-4">
-            <p className="font-semibold text-purple-900 mb-2">🍪 Tipi di cookie utilizzati</p>
-            <ul className="text-sm text-purple-800 space-y-1">
-              <li><strong>Tecnici:</strong> Necessari per il funzionamento del sito (autenticazione staff, sessioni)</li>
-              <li><strong>Analitici:</strong> Per misurare l'uso del sito (opzionali)</li>
-              <li><strong>Preferenze:</strong> Per ricordare le tue scelte</li>
+          {/* Cookies Types */}
+          <div className="border border-[#d4af37]/30 bg-gradient-to-br from-[#d4af37]/10 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm">
+            <p className="font-semibold text-[#d4af37] mb-4 flex items-center gap-2">
+              <span className="text-xl">🍪</span>
+              Tipi di Cookie Utilizzati
+            </p>
+            <div className="space-y-3">
+              <div>
+                <p className="text-[#f4e4c1] font-semibold text-sm">🔐 Cookie Tecnici (Necessari)</p>
+                <p className="text-[#f8f8f8]/80 text-sm mt-1">
+                  Essenziali per il funzionamento del sito: autenticazione staff, sessioni, preferenze di navigazione
+                </p>
+              </div>
+              <div className="border-t border-[#d4af37]/20 pt-3">
+                <p className="text-[#f4e4c1] font-semibold text-sm">📊 Cookie Analitici (Opzionali)</p>
+                <p className="text-[#f8f8f8]/80 text-sm mt-1">
+                  Per misurare come utilizzi il sito e migliorare l'esperienza. Completamente opzionali e anonimizzati
+                </p>
+              </div>
+              <div className="border-t border-[#d4af37]/20 pt-3">
+                <p className="text-[#f4e4c1] font-semibold text-sm">⚙️ Cookie di Preferenza (Opzionali)</p>
+                <p className="text-[#f8f8f8]/80 text-sm mt-1">
+                  Per ricordare le tue scelte e preferenze durante le visite future
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Consent Management */}
+          <div className="border border-[#d4af37]/30 bg-gradient-to-br from-[#d4af37]/10 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm">
+            <p className="font-semibold text-[#d4af37] mb-3 flex items-center gap-2">
+              <span className="text-xl">✓</span>
+              Gestione dei Tuoi Consensi
+            </p>
+            <p className="text-[#f8f8f8]/80 text-sm leading-relaxed">
+              Puoi gestire le tue preferenze di cookie in qualsiasi momento cliccando sul pulsante "Le tue preferenze relative al consenso per le tecnologie di tracciamento" in fondo alla pagina. Iubenda ti offre un'interfaccia semplice e intuitiva.
+            </p>
+          </div>
+
+          {/* Cookie Details */}
+          <div className="border border-[#d4af37]/30 bg-gradient-to-br from-[#d4af37]/10 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm">
+            <p className="font-semibold text-[#d4af37] mb-3 flex items-center gap-2">
+              <span className="text-xl">📋</span>
+              Cookie Specifici Utilizzati
+            </p>
+            <ul className="text-[#f8f8f8]/80 text-sm space-y-2">
+              <li>✓ <strong>barber_staff_session:</strong> Autenticazione staff (HTTP-only, secure)</li>
+              <li>✓ <strong>Cookie iubenda:</strong> Gestione dei consensi (richiesto GDPR)</li>
+              <li>✓ <strong>Session tracking:</strong> Tracciamento delle sessioni di prenotazione</li>
             </ul>
           </div>
 
-          <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 my-4">
-            <p className="font-semibold text-gray-900 mb-2">⚙️ Come configurare</p>
-            <p className="text-sm text-gray-700 mb-2">
-              Se sei il proprietario di questo sito:
+          {/* CTA */}
+          <div className="border-t border-[#d4af37]/20 pt-6 text-center">
+            <p className="text-[#d4af37]/60 text-sm mb-4">
+              Hai dubbi su come utilizziamo i cookie? Contattaci!
             </p>
-            <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
-              <li>Accedi a <a href="https://www.iubenda.com" className="text-blue-600 hover:underline">iubenda.com</a></li>
-              <li>Crea un progetto per il tuo sito</li>
-              <li>Configura i tuoi cookie</li>
-              <li>Genera l'ID del progetto e aggiorna il componente <code className="bg-gray-200 px-2 py-1 rounded text-xs">IubendaLinks</code></li>
-            </ol>
+            <Link 
+              href="/"
+              className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] font-semibold hover:shadow-lg hover:shadow-[#d4af37]/30 transition-all duration-300"
+            >
+              Torna alla Home
+            </Link>
           </div>
-        </div>
-
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-          <p className="text-sm text-yellow-800">
-            <strong>Nota:</strong> Questa è una pagina placeholder. La policy completa sui cookie è accessibile tramite il link nel footer.
-          </p>
         </div>
       </div>
     </div>

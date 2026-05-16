@@ -43,59 +43,66 @@ export default async function RootLayout({
     <html lang="it">
       <body className={inter.className}>
         
-        {/* INIZIO NAVBAR NERA */}
-        <nav className="bg-black text-white p-4 sticky top-0 z-50 shadow-md">
-          <div className="max-w-6xl mx-auto flex justify-between items-center">
+        {/* PREMIUM NAVBAR */}
+        <nav className="sticky top-0 z-50 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] border-b border-[#d4af37]/20 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             
-            {/* Logo */}
-            <Link href="/" className="font-bold text-xl tracking-wider flex items-center gap-2">
-              <Scissors size={24} /> IL TUO BARBIERE
+            {/* Logo Premium */}
+            <Link href="/" className="group flex items-center gap-3 hover:opacity-80 transition">
+              <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-2 rounded-lg">
+                <Scissors size={24} className="text-[#0a0a0a]" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg tracking-wider bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
+                  IL TUO BARBIERE
+                </span>
+                <span className="text-xs text-[#d4af37]/60">Premium Barbershop</span>
+              </div>
             </Link>
 
             {/* Menu Navigazione */}
-            <div className="flex gap-4 md:gap-8">
-              <Link href="/" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
+            <div className="flex gap-6 md:gap-8 items-center">
+              <Link href="/" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
                 <Home size={20} /> <span className="hidden sm:inline">Prenota</span>
               </Link>
 
               {isStaff ? (
                 <>
-                  <Link href="/dashboard" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
+                  <Link href="/dashboard" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
                     <CalendarDays size={20} /> <span className="hidden sm:inline">Appuntamenti</span>
                   </Link>
 
-                  <Link href="/admin" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
-                    <Users size={20} /> <span className="hidden sm:inline">Staff</span>
+                  <Link href="/admin" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+                    <Users size={20} /> <span className="hidden sm:inline">Gestione</span>
                   </Link>
 
-                    <div className="flex items-center gap-4">
-                      {staffUsername && <span className="hidden sm:inline text-sm">Ciao, {staffUsername}</span>}
-                      <form action="/api/staff/logout" method="post">
-                        <button type="submit" className="cursor-pointer hover:text-gray-300 transition font-medium">
-                          Esci
-                        </button>
-                      </form>
-                    </div>
+                  <div className="flex items-center gap-4 border-l border-[#d4af37]/20 pl-4">
+                    {staffUsername && <span className="hidden sm:inline text-sm text-[#d4af37]">👤 {staffUsername}</span>}
+                    <form action="/api/staff/logout" method="post">
+                      <button type="submit" className="cursor-pointer text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+                        Esci
+                      </button>
+                    </form>
+                  </div>
                 </>
               ) : (
-                <Link href="/staff-login" className="flex items-center gap-2 hover:text-gray-300 transition font-medium">
-                  <Users size={20} /> <span className="hidden sm:inline">Area Staff</span>
+                <Link href="/staff-login" className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 transition-all duration-300 font-semibold text-sm">
+                  <Users size={18} /> <span className="hidden sm:inline">Staff</span>
                 </Link>
               )}
             </div>
 
           </div>
         </nav>
-        {/* FINE NAVBAR */}
 
-        {/* Qui verranno caricate le tue pagine (Home, Dashboard, Admin, ecc.) */}
-        <main className="min-h-screen bg-gray-50 pb-20">
+        {/* Main Content */}
+        <main className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#1a1a1a] to-[#2a2a2a] pb-20">
           {children}
         </main>
 
         <PwaInstallPrompt />
 
-        {/* FOOTER CON LINK IUBENDA */}
+        {/* PREMIUM FOOTER */}
         <IubendaLinks />
       </body>
     </html>
