@@ -1,5 +1,3 @@
-'use client'
-import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
 import Link from 'next/link'
 
@@ -9,26 +7,26 @@ type Barber = {
   service_price: number
 }
 
-export default function Home() {
-  const [barbiere, setBarbiere] = useState<Barber[]>([])
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+export const revalidate = 60 // Revalidate every 60 seconds
 
-  useEffect(() => {
-    // Funzione per scaricare i dati dei barbieri
-    const fetchBarbers = async () => {
-      const { data, error } = await supabase.from('barbers').select('*')
-      console.log('fetchBarbers result:', { data, error })
-      if (error) {
-        console.error('Errore:', error)
-        setErrorMessage(error.message)
-        return
-      }
+export default async function Home() {
+  let barbiere: Barber[] = []
+  let errorMessage: string | null = null
 
-      setBarbiere(data ?? [])
+  try {
+    // Fetch barbers data on the server
+    const { data, error } = await supabase.from('barbers').select('*')
+    
+    if (error) {
+      console.error('Errore nel caricamento barbieri:', error)
+      errorMessage = error.message
+    } else {
+      barbiere = data ?? []
     }
-
-    fetchBarbers()
-  }, [])
+  } catch (err) {
+    console.error('Errore imprevisto:', err)
+    errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto'
+  }
 
   return (
     <main className="p-10">
