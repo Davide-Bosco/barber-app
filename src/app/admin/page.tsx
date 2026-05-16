@@ -298,120 +298,51 @@ export default function AdminStaff() {
                 </p>
               </div>
             </div>
-            <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">👤 Nome Barbiere</label>
-            <input 
-              value={newName} 
-              onChange={e => setNewName(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] placeholder-[#8b0099]/40 focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
-              placeholder="Es: Giusy" 
-              required
-            />
+            <button 
+              type="button"
+              onClick={() => deleteBarber(b.id)}
+              className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
+            >
+              <Trash2 size={20} />
+            </button>
           </div>
-          <div className="w-full md:w-40">
-            <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">💰 Prezzo (€)</label>
-            <input 
-              type="number" 
-              value={newPrice} 
-              onChange={e => setNewPrice(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] placeholder-[#8b0099]/40 focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
-              placeholder="20" 
-              required
-            />
-          </div>
-          <button className="w-full md:w-auto bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] text-[#0a0a0a] px-6 py-3 rounded-lg font-black hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all duration-300 uppercase tracking-widest">
-            {loading ? 'Salvataggio...' : '✓ Aggiungi'}
-          </button>
-        </form>
-
-        {/* Lista barbieri */}
-        <div className="space-y-3">
-          <p className="text-[#d4af37] font-black text-sm uppercase tracking-widest">👥 Barbieri Registrati ({barbers.length})</p>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
-            {barbers.length === 0 ? (
-              <p className="text-[#8b0099]/60 text-sm font-bold">Nessun barbiere ancora</p>
-            ) : (
-              barbers.map(b => (
-                <div key={b.id} className="flex items-center justify-between p-4 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a]/50 hover:border-[#d41a1a] transition-colors group">
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#8b0099] to-[#d41a1a] rounded-lg flex items-center justify-center font-black text-[#f8f8f8] group-hover:shadow-lg group-hover:shadow-[#d41a1a]/50 transition-all">
-                      {b.name[0].toUpperCase()}
-                    </div>
-                    <div>
-                      <p className="font-black text-lg text-[#f8f8f8] uppercase">{b.name}</p>
-                      <p className="text-[#d4af37] flex items-center gap-1 text-xs font-bold">
-                        💰 €{b.service_price} a taglio
-                      </p>
-                    </div>
-                  </div>
-                  <button 
-                    type="button"
-                    onClick={() => deleteBarber(b.id)}
-                    className="p-2 rounded-lg hover:bg-[#d41a1a]/20 transition-colors text-[#d41a1a]"
-                    title="Elimina barbiere"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* GESTIONE UTENTI STAFF */}
-      <div className="mb-10 rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-6 md:p-8 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-        <h2 className="mb-6 flex items-center gap-3 text-2xl font-black text-[#d4af37] uppercase tracking-widest">
-          <Key size={28} className="text-[#d41a1a]" /> Gestione Utenti Staff
+      <div className="mt-10 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 backdrop-blur-sm">
+        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-[#d4af37]">
+          <Key size={20} /> Gestione Utenti Staff
         </h2>
 
         {staffError && (
-          <div className="mb-4 rounded-lg border-2 border-[#d41a1a]/50 bg-[#d41a1a]/15 p-4 text-[#f4e4c1] backdrop-blur-sm">
-            <p className="font-black text-sm">⚠️ ERRORE</p>
-            <p className="text-xs mt-1">{staffError}</p>
-          </div>
+          <div className="mb-4 rounded-lg border border-[#d4af37]/20 bg-[#d4af37]/10 p-3 text-sm text-[#d4af37] backdrop-blur-sm">{staffError}</div>
         )}
 
-        <form onSubmit={createStaffUser} className="mb-6 p-4 rounded-xl border-2 border-[#8b0099]/40 bg-[#0a0a0a]/50 backdrop-blur-sm flex flex-col md:flex-row gap-4 items-end">
+        <form onSubmit={createStaffUser} className="mb-4 flex flex-col gap-3 md:flex-row md:items-end">
           <div className="flex-1">
-            <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">👤 Username</label>
-            <input 
-              value={newStaffUsername} 
-              onChange={e => setNewStaffUsername(e.target.value)} 
-              className="w-full p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] placeholder-[#8b0099]/40 focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
-              placeholder="admin"
-            />
+            <label className="block text-sm font-medium text-[#d4af37]">Username</label>
+            <input value={newStaffUsername} onChange={e => setNewStaffUsername(e.target.value)} className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]" />
           </div>
-          <div className="w-full md:w-48">
-            <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">🔐 Password</label>
-            <input 
-              type="password" 
-              value={newStaffPassword} 
-              onChange={e => setNewStaffPassword(e.target.value)} 
-              className="w-full p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] placeholder-[#8b0099]/40 focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
-              placeholder="••••••••"
-            />
+          <div className="w-48">
+            <label className="block text-sm font-medium text-[#d4af37]">Password</label>
+            <input type="password" value={newStaffPassword} onChange={e => setNewStaffPassword(e.target.value)} className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]" />
           </div>
-          <button className="w-full md:w-auto bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] text-[#0a0a0a] px-6 py-3 rounded-lg font-black hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all duration-300 uppercase tracking-widest">
-            ✓ Crea Utente
-          </button>
+          <div>
+            <button className="rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-2 font-medium text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30">Crea Utente</button>
+          </div>
         </form>
 
         <div>
-          <p className="text-[#d4af37] font-black text-sm uppercase tracking-widest mb-3">Utenti Attivi ({staffUsers.length})</p>
-          <div className="space-y-2 max-h-48 overflow-y-auto">
+          <p className="mb-2 text-sm font-semibold text-[#d4af37]">Utenti esistenti</p>
+          <div className="grid gap-2">
             {staffUsers.length === 0 ? (
-              <p className="text-[#8b0099]/60 text-sm font-bold">Nessun utente staff presente.</p>
+              <div className="text-sm text-[#d4af37]/60">Nessun utente staff presente.</div>
             ) : (
               staffUsers.map(u => (
-                <div key={u.id} className="flex items-center justify-between p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a]/50 hover:border-[#d41a1a] transition-colors">
-                  <p className="font-black text-[#d4af37] uppercase">{u.username}</p>
-                  <button 
-                    onClick={() => deleteStaff(u.id)} 
-                    className="p-1 rounded hover:bg-[#d41a1a]/20 transition-colors text-[#d41a1a]"
-                    title="Elimina utente"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                <div key={u.id} className="flex items-center justify-between rounded border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-3 backdrop-blur-sm">
+                  <div className="font-medium text-[#d4af37]">{u.username}</div>
+                  <button onClick={() => deleteStaff(u.id)} className="text-red-500 hover:text-red-700">Elimina</button>
                 </div>
               ))
             )}
@@ -419,67 +350,62 @@ export default function AdminStaff() {
         </div>
       </div>
 
-      {/* GESTIONE SLOT GIORNALIERI */}
-      <div className="rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-6 md:p-8 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-        <h2 className="mb-6 flex items-center gap-3 text-2xl font-black text-[#d4af37] uppercase tracking-widest">
-          <Clock3 size={28} className="text-[#d41a1a]" /> Gestione Slot Orari
+      <div className="mt-10 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 backdrop-blur-sm">
+        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-[#d4af37]">
+          <Clock3 size={20} /> Gestione Slot Giornalieri
         </h2>
 
-        <div className="mb-6 max-w-xs">
-          <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">📅 Data da Modificare</label>
+        <div className="mb-4 max-w-xs">
+          <label className="mb-1 block text-sm font-medium text-[#d4af37]">Data da modificare</label>
           <input
             type="date"
             value={slotDate}
             onChange={(event) => setSlotDate(event.target.value)}
-            className="w-full p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
+            className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]"
           />
         </div>
 
-        <form onSubmit={handleAddSlot} className="mb-6 p-4 rounded-xl border-2 border-[#8b0099]/40 bg-[#0a0a0a]/50 backdrop-blur-sm flex flex-col md:flex-row gap-4 items-end">
+        <form onSubmit={handleAddSlot} className="mb-5 flex flex-col gap-3 rounded-xl border border-[#d4af37]/20 bg-[#0a0a0a]/50 p-4 md:flex-row md:items-end backdrop-blur-sm">
           <div>
-            <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">🕐 Nuovo Slot</label>
+            <label className="mb-1 block text-sm font-medium text-[#d4af37]">Nuovo slot da aggiungere</label>
             <input
               type="time"
               value={slotTime}
               onChange={(event) => setSlotTime(event.target.value)}
-              className="p-3 rounded-lg border-2 border-[#8b0099]/40 bg-[#0a0a0a] text-[#f8f8f8] focus:outline-none focus:border-[#d41a1a] transition-colors font-bold"
+              className="rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]"
               step={1800}
             />
           </div>
           <button
             type="submit"
             disabled={slotActionLoading}
-            className="bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] text-[#0a0a0a] px-6 py-3 rounded-lg font-black hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all duration-300 uppercase tracking-widest disabled:opacity-60"
+            className="rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-2 font-medium text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 disabled:opacity-60"
           >
-            ✓ Aggiungi Slot
+            Aggiungi slot
           </button>
         </form>
 
         {slots.warning && (
-          <div className="mb-4 rounded-lg border-2 border-[#d4af37]/50 bg-[#d4af37]/10 p-4 text-[#d4af37] backdrop-blur-sm font-bold text-sm">
-            ℹ️ {slots.warning}
+          <div className="mb-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800">
+            {slots.warning}
           </div>
         )}
 
         {slotsError && (
-          <div className="mb-4 rounded-lg border-2 border-[#d41a1a]/50 bg-[#d41a1a]/15 p-4 text-[#f4e4c1] backdrop-blur-sm">
-            <p className="font-black text-sm">⚠️ ERRORE</p>
-            <p className="text-xs mt-1">{slotsError}</p>
+          <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+            {slotsError}
           </div>
         )}
 
         {slotsLoading ? (
-          <div className="rounded-lg border-2 border-[#8b0099]/40 bg-[#8b0099]/10 p-4 text-center text-[#d4af37] font-black animate-pulse">
-            ⏳ Caricamento slot...
-          </div>
+          <div className="rounded-lg border border-[#d4af37]/20 bg-[#d4af37]/10 p-3 text-sm text-[#d4af37] backdrop-blur-sm text-center font-bold">Caricamento slot...</div>
         ) : (
-          <div className="space-y-6">
-            {/* Slot Prenotabili */}
-            <div>
-              <p className="text-[#d4af37] font-black text-sm uppercase tracking-widest mb-3">✅ Slot Prenotabili ({slots.availableSlots.length})</p>
+          <>
+            <div className="mb-4">
+              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot prenotabili ({slots.availableSlots.length})</p>
               <div className="flex flex-wrap gap-2">
                 {slots.availableSlots.length === 0 ? (
-                  <span className="text-[#8b0099]/60 text-sm font-bold">Nessuno slot disponibile.</span>
+                  <span className="text-sm text-[#d4af37]/60">Nessuno slot disponibile.</span>
                 ) : (
                   slots.availableSlots.map((time) => (
                     <button
@@ -487,21 +413,20 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => saveSlotOverride(slotDate, time, false)}
                       disabled={slotActionLoading}
-                      className="px-3 py-2 rounded-lg border-2 border-[#8b0099]/40 bg-[#8b0099]/10 text-[#d4af37] text-xs font-black uppercase tracking-widest hover:bg-[#8b0099]/20 hover:border-[#d41a1a] transition-all disabled:opacity-60"
+                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-sm text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
                     >
-                      {time} ⊘ Disattiva
+                      {time} - Disattiva
                     </button>
                   ))
                 )}
               </div>
             </div>
 
-            {/* Slot Rimossi */}
-            <div>
-              <p className="text-[#d4af37] font-black text-sm uppercase tracking-widest mb-3">❌ Slot Standard Rimossi ({slots.removedDefaultSlots.length})</p>
+            <div className="mb-4">
+              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot standard rimossi</p>
               <div className="flex flex-wrap gap-2">
                 {slots.removedDefaultSlots.length === 0 ? (
-                  <span className="text-[#8b0099]/60 text-sm font-bold">Nessuno slot rimosso.</span>
+                  <span className="text-sm text-[#d4af37]/60">Nessuno slot standard rimosso.</span>
                 ) : (
                   slots.removedDefaultSlots.map((time) => (
                     <button
@@ -509,21 +434,20 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => deleteSlotOverride(slotDate, time)}
                       disabled={slotActionLoading}
-                      className="px-3 py-2 rounded-lg border-2 border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37] text-xs font-black uppercase tracking-widest hover:bg-[#d4af37]/20 transition-all disabled:opacity-60"
+                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-sm text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
                     >
-                      {time} ↺ Ripristina
+                      {time} - Ripristina
                     </button>
                   ))
                 )}
               </div>
             </div>
 
-            {/* Slot Extra */}
             <div>
-              <p className="text-[#d4af37] font-black text-sm uppercase tracking-widest mb-3">⚡ Slot Extra ({slots.extraSlots.length})</p>
+              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot extra aggiunti</p>
               <div className="flex flex-wrap gap-2">
                 {slots.extraSlots.length === 0 ? (
-                  <span className="text-[#8b0099]/60 text-sm font-bold">Nessuno slot extra.</span>
+                  <span className="text-sm text-[#d4af37]/60">Nessuno slot extra.</span>
                 ) : (
                   slots.extraSlots.map((time) => (
                     <button
@@ -531,15 +455,15 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => deleteSlotOverride(slotDate, time)}
                       disabled={slotActionLoading}
-                      className="px-3 py-2 rounded-lg border-2 border-[#d41a1a]/40 bg-[#d41a1a]/10 text-[#d41a1a] text-xs font-black uppercase tracking-widest hover:bg-[#d41a1a]/20 transition-all disabled:opacity-60"
+                      className="rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800 hover:bg-gray-200 disabled:opacity-60"
                     >
-                      {time} ✕ Rimuovi
+                      {time} - Rimuovi extra
                     </button>
                   ))
                 )}
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
