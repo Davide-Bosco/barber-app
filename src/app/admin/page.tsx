@@ -251,33 +251,53 @@ export default function AdminStaff() {
   }
 
   return (
-    <div className="px-4 md:px-6 py-8 max-w-6xl mx-auto">
-      {/* HEADER */}
-      <div className="mb-10 animate-fade-in-up">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-4xl">⚙️</span>
-          <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] bg-clip-text text-transparent uppercase tracking-tighter">
-            Admin Panel
-          </h1>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-[#d4af37]">
+        <UserPlus /> Gestione Collaboratori
+      </h1>
+
+      {errorMessage && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+          {errorMessage}
         </div>
-        <p className="text-[#d41a1a] font-bold">Gestisci tutto con il potere del Joker! 😈</p>
-      </div>
+      )}
 
-      {/* GESTIONE BARBIERI */}
-      <div className="mb-10 rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-6 md:p-8 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-        <h2 className="mb-4 flex items-center gap-3 text-2xl font-black text-[#d4af37] uppercase tracking-widest">
-          <UserPlus size={28} className="text-[#d41a1a]" /> Aggiungi Barbiere
-        </h2>
+      {/* Form per aggiungere */}
+      <form onSubmit={addBarber} className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-4 rounded-xl mb-8 flex gap-4 items-end border border-[#d4af37]/20 backdrop-blur-sm">
+        <div className="flex-1">
+          <label className="block text-sm font-medium text-[#d4af37] mb-1">Nome Barbiere</label>
+          <input 
+            value={newName} onChange={e => setNewName(e.target.value)}
+            className="w-full p-2 border border-[#d4af37]/20 rounded bg-[#0a0a0a] text-[#f8f8f8]" placeholder="Es: Giusy" required
+          />
+        </div>
+        <div className="w-32">
+          <label className="block text-sm font-medium text-[#d4af37] mb-1">Prezzo (€)</label>
+          <input 
+            type="number" value={newPrice} onChange={e => setNewPrice(e.target.value)}
+            className="w-full p-2 border border-[#d4af37]/20 rounded bg-[#0a0a0a] text-[#f8f8f8]" placeholder="20" required
+          />
+        </div>
+        <button className="bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:shadow-[#d4af37]/30 transition">
+          {loading ? 'Salvataggio...' : 'Aggiungi'}
+        </button>
+      </form>
 
-        {errorMessage && (
-          <div className="mb-4 rounded-lg border-2 border-[#d41a1a]/50 bg-[#d41a1a]/15 p-4 text-[#f4e4c1] backdrop-blur-sm">
-            <p className="font-black text-sm">⚠️ ERRORE</p>
-            <p className="text-xs mt-1">{errorMessage}</p>
-          </div>
-        )}
-
-        <form onSubmit={addBarber} className="mb-8 p-4 rounded-xl border-2 border-[#8b0099]/40 bg-[#0a0a0a]/50 backdrop-blur-sm flex flex-col md:flex-row gap-4 items-end">
-          <div className="flex-1">
+      {/* Lista collaboratori */}
+      <div className="grid gap-4">
+        {barbers.map(b => (
+          <div key={b.id} className="flex items-center justify-between p-4 border border-[#d4af37]/20 rounded-xl bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] backdrop-blur-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] rounded-full flex items-center justify-center font-bold text-[#0a0a0a]">
+                {b.name[0]}
+              </div>
+              <div>
+                <p className="font-bold text-lg text-[#f8f8f8]">{b.name}</p>
+                <p className="text-[#d4af37]/60 flex items-center gap-1 text-sm">
+                  <Euro size={14}/> {b.service_price} a taglio
+                </p>
+              </div>
+            </div>
             <label className="block text-[#d4af37] font-black text-xs uppercase tracking-widest mb-2">👤 Nome Barbiere</label>
             <input 
               value={newName} 

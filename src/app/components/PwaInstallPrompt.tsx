@@ -50,40 +50,43 @@ export default function PwaInstallPrompt() {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 shadow-2xl shadow-[#d41a1a]/30 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
+    <div className="fixed bottom-6 left-6 right-6 z-50 mx-auto max-w-lg rounded-2xl border-2 border-[#d4af37]/40 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] p-6 shadow-2xl shadow-[#d4af37]/20 backdrop-blur-sm">
       {shouldShowAndroidInstall && (
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="text-2xl">📱</div>
-              <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">Installa App</p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="text-4xl animate-bounce">📱</div>
+              <div>
+                <p className="text-lg font-bold text-[#d4af37]">Installa l'App</p>
+                <p className="text-xs text-[#d4af37]/60 font-semibold">Accesso Premium</p>
+              </div>
             </div>
             <button
               type="button"
               onClick={() => setClosed(true)}
-              className="p-1 rounded hover:bg-[#8b0099]/20 transition"
+              className="p-2 rounded-lg hover:bg-[#d4af37]/10 transition"
             >
-              <X size={16} className="text-[#8b0099]" />
+              <X size={20} className="text-[#d4af37]" />
             </button>
           </div>
           
-          <p className="text-xs text-[#f8f8f8]/80 mb-4 leading-relaxed">
-            Installa Joker's Style come app sul tuo telefono per accesso più veloce! 🃏
+          <p className="text-sm text-[#f8f8f8] mb-5 leading-relaxed font-medium">
+            Installa Il Tuo Barbiere come app sul tuo telefono per accesso più veloce e un'esperienza premium!
           </p>
           
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               type="button"
               onClick={installApp}
-              className="flex-1 rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] px-3 py-2 text-[#0a0a0a] text-xs font-black uppercase tracking-widest flex items-center justify-center gap-1 hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all"
+              className="flex-1 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-4 py-3 text-[#0a0a0a] text-sm font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#d4af37]/40 transition-all"
             >
-              <Download size={14} />
-              Installa
+              <Download size={18} />
+              Installa Ora
             </button>
             <button
               type="button"
               onClick={() => setClosed(true)}
-              className="flex-1 rounded-lg border-2 border-[#8b0099]/40 px-3 py-2 text-[#d4af37] text-xs font-black uppercase tracking-widest hover:border-[#d41a1a] transition-colors"
+              className="flex-1 rounded-lg border-2 border-[#d4af37]/40 px-4 py-3 text-[#d4af37] text-sm font-bold hover:border-[#d4af37]/80 transition-colors hover:bg-[#d4af37]/5"
             >
               Dopo
             </button>
@@ -93,30 +96,33 @@ export default function PwaInstallPrompt() {
 
       {shouldShowIosHint && (
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="text-2xl">📱</div>
-              <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">Aggiungi alla Home</p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="text-4xl animate-bounce">📱</div>
+              <div>
+                <p className="text-lg font-bold text-[#d4af37]">Aggiungi alla Home</p>
+                <p className="text-xs text-[#d4af37]/60 font-semibold">Safari iOS</p>
+              </div>
             </div>
             <button
               type="button"
               onClick={() => setClosed(true)}
-              className="p-1 rounded hover:bg-[#8b0099]/20 transition"
+              className="p-2 rounded-lg hover:bg-[#d4af37]/10 transition"
             >
-              <X size={16} className="text-[#8b0099]" />
+              <X size={20} className="text-[#d4af37]" />
             </button>
           </div>
           
-          <p className="text-xs text-[#f8f8f8]/80 mb-4 leading-relaxed">
-            Su Safari: tocca <strong>Condividi</strong> e poi <strong>Aggiungi a Home</strong> per accesso istantaneo! 🃏
+          <p className="text-sm text-[#f8f8f8] mb-5 leading-relaxed font-medium">
+            Su Safari: tocca <strong>Condividi</strong> in basso, poi <strong>Aggiungi a Home</strong> per accesso istantaneo!
           </p>
           
           <button
             type="button"
             onClick={() => setClosed(true)}
-            className="w-full rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] px-3 py-2 text-[#0a0a0a] text-xs font-black uppercase tracking-widest hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all"
+            className="w-full rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-4 py-3 text-[#0a0a0a] text-sm font-bold hover:shadow-lg hover:shadow-[#d4af37]/40 transition-all"
           >
-            Ho capito! ✓
+            Ho capito ✓
           </button>
         </div>
       )}

@@ -24,36 +24,36 @@ export default function IubendaLinks() {
   }, [])
 
   return (
-    <footer className="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-t-2 border-[#8b0099]/40 text-[#f8f8f8] p-8 md:p-12 mt-16">
+    <footer className="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-t border-[#d4af37]/20 text-[#f8f8f8] p-8 md:p-12 mt-16">
       <div className="max-w-6xl mx-auto">
         
         {/* Links Section */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-8 text-center md:text-left">
           <Link 
             href="/privacy"
-            className="text-[#d41a1a] hover:text-[#d4af37] transition-colors duration-300 font-black uppercase tracking-wide"
+            className="text-[#d4af37] hover:text-[#f4e4c1] transition-colors duration-300 font-medium"
             title="Privacy Policy"
           >
             Privacy Policy
           </Link>
           
-          <span className="text-[#8b0099]/60 font-black">🃏</span>
+          <span className="text-[#d4af37]/30">•</span>
           
           <Link 
             href="/cookies"
-            className="text-[#d41a1a] hover:text-[#d4af37] transition-colors duration-300 font-black uppercase tracking-wide"
+            className="text-[#d4af37] hover:text-[#f4e4c1] transition-colors duration-300 font-medium"
             title="Cookie Policy"
           >
             Cookie Policy
           </Link>
           
-          <span className="text-[#8b0099]/60 font-black">🃏</span>
+          <span className="text-[#d4af37]/30">•</span>
           
           <a 
             href="https://www.iubenda.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#d41a1a] hover:text-[#d4af37] transition-colors duration-300 font-black uppercase tracking-wide"
+            className="text-[#d4af37] hover:text-[#f4e4c1] transition-colors duration-300 font-medium"
             title="Iubenda"
           >
             Iubenda
@@ -61,12 +61,12 @@ export default function IubendaLinks() {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-[#8b0099]/40 to-transparent mb-8"></div>
+        <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent mb-8"></div>
 
         {/* Copyright */}
-        <div className="text-center text-[#d41a1a]/70 text-sm">
-          <p className="font-black uppercase tracking-widest">© 2026 JOKER'S STYLE - LAUGH'S BARBERSHOP</p>
-          <p className="mt-2 text-xs text-[#8b0099]/60 font-bold">🃏 Why So Serious? Why So Serious About Quality Cuts! 🃏</p>
+        <div className="text-center text-[#d4af37]/60 text-sm">
+          <p>© {new Date().getFullYear()} Il Tuo Barbiere. Tutti i diritti riservati.</p>
+          <p className="mt-2 text-xs text-[#d4af37]/40">Crafted with ✨ for your premium barbershop experience</p>
         </div>
       </div>
     </footer>
