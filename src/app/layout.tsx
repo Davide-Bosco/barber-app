@@ -43,50 +43,50 @@ export default async function RootLayout({
     <html lang="it">
       <body className={inter.className}>
         
-        {/* PREMIUM NAVBAR */}
-        <nav className="sticky top-0 z-50 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] border-b border-[#d4af37]/20 backdrop-blur-sm">
+        {/* PREMIUM NAVBAR - JOKER'S STYLE */}
+        <nav className="sticky top-0 z-50 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] border-b border-[#8b0099]/40 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             
-            {/* Logo Premium */}
-            <Link href="/" className="group flex items-center gap-3 hover:opacity-80 transition">
-              <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-2 rounded-lg">
-                <Scissors size={24} className="text-[#0a0a0a]" />
+            {/* Logo - Joker Card */}
+            <Link href="/" className="group flex items-center gap-3 hover:opacity-80 transition animate-card-flip">
+              <div className="bg-gradient-to-br from-[#8b0099] via-[#d41a1a] to-[#d4af37] p-2 rounded-lg relative overflow-hidden animate-joker-pulse">
+                <span className="text-2xl font-black">🃏</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-lg tracking-wider bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
-                  IL TUO BARBIERE
+                <span className="font-black text-lg tracking-widest bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] bg-clip-text text-transparent">
+                  JOKER'S STYLE
                 </span>
-                <span className="text-xs text-[#d4af37]/60">Premium Barbershop</span>
+                <span className="text-xs text-[#d41a1a]/80 font-bold">LAUGH's BARBERSHOP</span>
               </div>
             </Link>
 
             {/* Menu Navigazione */}
             <div className="flex gap-6 md:gap-8 items-center">
-              <Link href="/" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+              <Link href="/" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d41a1a] transition-colors duration-300 font-bold uppercase text-sm">
                 <Home size={20} /> <span className="hidden sm:inline">Prenota</span>
               </Link>
 
               {isStaff ? (
                 <>
-                  <Link href="/dashboard" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+                  <Link href="/dashboard" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#8b0099] transition-colors duration-300 font-bold uppercase text-sm">
                     <CalendarDays size={20} /> <span className="hidden sm:inline">Appuntamenti</span>
                   </Link>
 
-                  <Link href="/admin" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+                  <Link href="/admin" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#8b0099] transition-colors duration-300 font-bold uppercase text-sm">
                     <Users size={20} /> <span className="hidden sm:inline">Gestione</span>
                   </Link>
 
-                  <div className="flex items-center gap-4 border-l border-[#d4af37]/20 pl-4">
-                    {staffUsername && <span className="hidden sm:inline text-sm text-[#d4af37]">👤 {staffUsername}</span>}
+                  <div className="flex items-center gap-4 border-l border-[#8b0099]/20 pl-4">
+                    {staffUsername && <span className="hidden sm:inline text-sm text-[#d41a1a] font-bold">😈 {staffUsername}</span>}
                     <form action="/api/staff/logout" method="post">
-                      <button type="submit" className="cursor-pointer text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
+                      <button type="submit" className="cursor-pointer text-[#f8f8f8] hover:text-[#d41a1a] transition-colors duration-300 font-bold uppercase text-sm">
                         Esci
                       </button>
                     </form>
                   </div>
                 </>
               ) : (
-                <Link href="/staff-login" className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 transition-all duration-300 font-semibold text-sm">
+                <Link href="/staff-login" className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all duration-300 font-black text-sm uppercase">
                   <Users size={18} /> <span className="hidden sm:inline">Staff</span>
                 </Link>
               )}
