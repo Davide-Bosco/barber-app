@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { Download, X } from 'lucide-react'
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>
@@ -49,23 +50,40 @@ export default function PwaInstallPrompt() {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg rounded-xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur">
+    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 shadow-2xl shadow-[#d41a1a]/30 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
       {shouldShowAndroidInstall && (
         <div>
-          <p className="text-sm font-semibold">Installa l&apos;app Barber Booking</p>
-          <p className="mt-1 text-xs text-gray-600">Per aprirla piu velocemente dal telefono, installala come app.</p>
-          <div className="mt-3 flex gap-2">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="text-2xl">📱</div>
+              <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">Installa App</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setClosed(true)}
+              className="p-1 rounded hover:bg-[#8b0099]/20 transition"
+            >
+              <X size={16} className="text-[#8b0099]" />
+            </button>
+          </div>
+          
+          <p className="text-xs text-[#f8f8f8]/80 mb-4 leading-relaxed">
+            Installa Joker's Style come app sul tuo telefono per accesso più veloce! 🃏
+          </p>
+          
+          <div className="flex gap-2">
             <button
               type="button"
               onClick={installApp}
-              className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
+              className="flex-1 rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] px-3 py-2 text-[#0a0a0a] text-xs font-black uppercase tracking-widest flex items-center justify-center gap-1 hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all"
             >
+              <Download size={14} />
               Installa
             </button>
             <button
               type="button"
               onClick={() => setClosed(true)}
-              className="rounded-lg border px-4 py-2 text-sm"
+              className="flex-1 rounded-lg border-2 border-[#8b0099]/40 px-3 py-2 text-[#d4af37] text-xs font-black uppercase tracking-widest hover:border-[#d41a1a] transition-colors"
             >
               Dopo
             </button>
@@ -75,14 +93,30 @@ export default function PwaInstallPrompt() {
 
       {shouldShowIosHint && (
         <div>
-          <p className="text-sm font-semibold">Aggiungi alla schermata Home</p>
-          <p className="mt-1 text-xs text-gray-600">Su iPhone: apri Condividi in Safari e tocca Aggiungi a Home.</p>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="text-2xl">📱</div>
+              <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">Aggiungi alla Home</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setClosed(true)}
+              className="p-1 rounded hover:bg-[#8b0099]/20 transition"
+            >
+              <X size={16} className="text-[#8b0099]" />
+            </button>
+          </div>
+          
+          <p className="text-xs text-[#f8f8f8]/80 mb-4 leading-relaxed">
+            Su Safari: tocca <strong>Condividi</strong> e poi <strong>Aggiungi a Home</strong> per accesso istantaneo! 🃏
+          </p>
+          
           <button
             type="button"
             onClick={() => setClosed(true)}
-            className="mt-3 rounded-lg border px-4 py-2 text-sm"
+            className="w-full rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] px-3 py-2 text-[#0a0a0a] text-xs font-black uppercase tracking-widest hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all"
           >
-            Ho capito
+            Ho capito! ✓
           </button>
         </div>
       )}
