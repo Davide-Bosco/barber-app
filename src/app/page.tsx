@@ -1,5 +1,6 @@
 import { supabase } from './lib/supabase'
 import Link from 'next/link'
+import BarberCard from './components/BarberCard'
 
 type Barber = {
   id: number
@@ -64,59 +65,16 @@ export default async function Home() {
       )}
 
       {/* BARBIERI CARDS */}
-      <section className="max-w-4xl mx-auto px-4 md:px-6 pb-16">
+      <section className="max-w-3xl mx-auto px-4 md:px-6 pb-16">
         {barbiere.length === 0 && !errorMessage ? (
           <div className="rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a]/50 to-[#2a2a2a]/50 p-12 text-center backdrop-blur-sm">
             <p className="text-[#d4af37]/60 text-lg">✨ Nessun barbiere disponibile al momento. Torna presto!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {barbiere.map((b, index) => (
-              <div 
-                key={b.id}
-                className="group relative animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Card Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <div className="relative rounded-xl border border-[#d4af37]/22 bg-gradient-to-br from-[#111111] via-[#151515] to-[#1f1f1f] p-3 md:p-4 backdrop-blur-sm group-hover:border-[#d4af37]/50 transition-all duration-400 group-hover:shadow-lg group-hover:shadow-[#d4af37]/12">
-                  
-                  {/* Avatar Circle */}
-                  <div className="mb-6 flex justify-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] flex items-center justify-center group-hover:shadow-md transition-all duration-300">
-                      <span className="text-xl font-semibold text-[#0a0a0a]">{b.name.charAt(0).toUpperCase()}</span>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="text-center mb-6">
-                    <h2 className="text-base font-semibold mb-1 text-[#f8f8f8] group-hover:text-[#d4af37] transition-colors">
-                      {b.name}
-                    </h2>
-                    <p className="text-[#d4af37]/70 text-sm">Taglio Professionale</p>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent mb-6"></div>
-
-                  {/* Price & Button */}
-                  <div className="space-y-4">
-                    <div className="text-center">
-                      <p className="text-[#d4af37]/60 text-sm mb-1">PREZZO</p>
-                      <p className="text-xl font-bold bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
-                        €{b.service_price}
-                      </p>
-                    </div>
-
-                    <Link 
-                      href={`/book/${b.id}`}
-                      className="block w-full py-3 px-4 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] font-semibold text-sm hover:shadow-md hover:shadow-[#d4af37]/20 hover:scale-103 transition-all duration-200 text-center"
-                    >
-                      Prenota Ora
-                    </Link>
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center items-start">
+            {barbiere.map((b) => (
+              <div key={b.id} className="animate-fade-in-up" >
+                <BarberCard id={b.id} name={b.name} price={b.service_price} />
               </div>
             ))}
           </div>
