@@ -251,8 +251,8 @@ export default function AdminStaff() {
   }
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-[#d4af37]">
+    <div className="p-8 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 flex items-center gap-2 text-[#d4af37]">
         <UserPlus /> Gestione Collaboratori
       </h1>
 
@@ -263,22 +263,22 @@ export default function AdminStaff() {
       )}
 
       {/* Form per aggiungere */}
-      <form onSubmit={addBarber} className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-4 rounded-xl mb-8 flex gap-4 items-end border border-[#d4af37]/20 backdrop-blur-sm">
+      <form onSubmit={addBarber} className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 lg:p-6 rounded-2xl mb-10 flex gap-4 items-end border border-[#d4af37]/20 backdrop-blur-sm">
         <div className="flex-1">
-          <label className="block text-sm font-medium text-[#d4af37] mb-1">Nome Barbiere</label>
+          <label className="block text-lg font-medium text-[#d4af37] mb-2">Nome Barbiere</label>
           <input 
             value={newName} onChange={e => setNewName(e.target.value)}
-            className="w-full p-2 border border-[#d4af37]/20 rounded bg-[#0a0a0a] text-[#f8f8f8]" placeholder="Es: Giusy" required
+            className="w-full p-4 rounded-xl border border-[#d4af37]/20 bg-[#0a0a0a] text-xl text-[#f8f8f8] placeholder-[#d4af37]/40" placeholder="Es: Giusy" required
           />
         </div>
         <div className="w-32">
-          <label className="block text-sm font-medium text-[#d4af37] mb-1">Prezzo (€)</label>
+          <label className="block text-lg font-medium text-[#d4af37] mb-2">Prezzo (€)</label>
           <input 
             type="number" value={newPrice} onChange={e => setNewPrice(e.target.value)}
-            className="w-full p-2 border border-[#d4af37]/20 rounded bg-[#0a0a0a] text-[#f8f8f8]" placeholder="20" required
+            className="w-full p-4 border border-[#d4af37]/20 rounded-xl bg-[#0a0a0a] text-xl text-[#f8f8f8] placeholder-[#d4af37]/40" placeholder="20" required
           />
         </div>
-        <button className="bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:shadow-[#d4af37]/30 transition">
+        <button className="bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] px-6 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:shadow-[#d4af37]/30 transition">
           {loading ? 'Salvataggio...' : 'Aggiungi'}
         </button>
       </form>
@@ -311,38 +311,38 @@ export default function AdminStaff() {
 
       {/* GESTIONE UTENTI STAFF */}
       <div className="mt-10 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 backdrop-blur-sm">
-        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-[#d4af37]">
+        <h2 className="mb-5 flex items-center gap-2 text-2xl font-bold text-[#d4af37]">
           <Key size={20} /> Gestione Utenti Staff
         </h2>
 
         {staffError && (
-          <div className="mb-4 rounded-lg border border-[#d4af37]/20 bg-[#d4af37]/10 p-3 text-sm text-[#d4af37] backdrop-blur-sm">{staffError}</div>
+          <div className="mb-4 rounded-xl border border-[#d4af37]/20 bg-[#d4af37]/10 p-4 text-base text-[#d4af37] backdrop-blur-sm">{staffError}</div>
         )}
 
         <form onSubmit={createStaffUser} className="mb-4 flex flex-col gap-3 md:flex-row md:items-end">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-[#d4af37]">Username</label>
-            <input value={newStaffUsername} onChange={e => setNewStaffUsername(e.target.value)} className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]" />
+            <label className="block text-lg font-medium text-[#d4af37] mb-2">Username</label>
+            <input value={newStaffUsername} onChange={e => setNewStaffUsername(e.target.value)} className="w-full rounded-xl border border-[#d4af37]/20 p-4 bg-[#0a0a0a] text-xl text-[#f8f8f8]" />
           </div>
           <div className="w-48">
-            <label className="block text-sm font-medium text-[#d4af37]">Password</label>
-            <input type="password" value={newStaffPassword} onChange={e => setNewStaffPassword(e.target.value)} className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]" />
+            <label className="block text-lg font-medium text-[#d4af37] mb-2">Password</label>
+            <input type="password" value={newStaffPassword} onChange={e => setNewStaffPassword(e.target.value)} className="w-full rounded-xl border border-[#d4af37]/20 p-4 bg-[#0a0a0a] text-xl text-[#f8f8f8]" />
           </div>
           <div>
-            <button className="rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-2 font-medium text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30">Crea Utente</button>
+            <button className="rounded-xl bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-4 font-semibold text-lg text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30">Crea Utente</button>
           </div>
         </form>
 
         <div>
-          <p className="mb-2 text-sm font-semibold text-[#d4af37]">Utenti esistenti</p>
+          <p className="mb-3 text-lg font-semibold text-[#d4af37]">Utenti esistenti</p>
           <div className="grid gap-2">
             {staffUsers.length === 0 ? (
-              <div className="text-sm text-[#d4af37]/60">Nessun utente staff presente.</div>
+              <div className="text-base text-[#d4af37]/60">Nessun utente staff presente.</div>
             ) : (
               staffUsers.map(u => (
-                <div key={u.id} className="flex items-center justify-between rounded border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-3 backdrop-blur-sm">
-                  <div className="font-medium text-[#d4af37]">{u.username}</div>
-                  <button onClick={() => deleteStaff(u.id)} className="text-red-500 hover:text-red-700">Elimina</button>
+                <div key={u.id} className="flex items-center justify-between rounded-xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-4 backdrop-blur-sm">
+                  <div className="text-lg font-medium text-[#d4af37]">{u.username}</div>
+                  <button onClick={() => deleteStaff(u.id)} className="text-lg text-red-500 hover:text-red-700">Elimina</button>
                 </div>
               ))
             )}
@@ -350,62 +350,62 @@ export default function AdminStaff() {
         </div>
       </div>
 
-      <div className="mt-10 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-5 backdrop-blur-sm">
-        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-[#d4af37]">
+      <div className="mt-10 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-6 backdrop-blur-sm">
+        <h2 className="mb-5 flex items-center gap-2 text-2xl font-bold text-[#d4af37]">
           <Clock3 size={20} /> Gestione Slot Giornalieri
         </h2>
 
         <div className="mb-4 max-w-xs">
-          <label className="mb-1 block text-sm font-medium text-[#d4af37]">Data da modificare</label>
+          <label className="mb-2 block text-lg font-medium text-[#d4af37]">Data da modificare</label>
           <input
             type="date"
             value={slotDate}
             onChange={(event) => setSlotDate(event.target.value)}
-            className="w-full rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]"
+            className="w-full rounded-xl border border-[#d4af37]/20 p-4 bg-[#0a0a0a] text-xl text-[#f8f8f8]"
           />
         </div>
 
-        <form onSubmit={handleAddSlot} className="mb-5 flex flex-col gap-3 rounded-xl border border-[#d4af37]/20 bg-[#0a0a0a]/50 p-4 md:flex-row md:items-end backdrop-blur-sm">
+        <form onSubmit={handleAddSlot} className="mb-6 flex flex-col gap-3 rounded-2xl border border-[#d4af37]/20 bg-[#0a0a0a]/50 p-5 md:flex-row md:items-end backdrop-blur-sm">
           <div>
-            <label className="mb-1 block text-sm font-medium text-[#d4af37]">Nuovo slot da aggiungere</label>
+            <label className="mb-2 block text-lg font-medium text-[#d4af37]">Nuovo slot da aggiungere</label>
             <input
               type="time"
               value={slotTime}
               onChange={(event) => setSlotTime(event.target.value)}
-              className="rounded border border-[#d4af37]/20 p-2 bg-[#0a0a0a] text-[#f8f8f8]"
+              className="rounded-xl border border-[#d4af37]/20 p-4 bg-[#0a0a0a] text-xl text-[#f8f8f8]"
               step={1800}
             />
           </div>
           <button
             type="submit"
             disabled={slotActionLoading}
-            className="rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-2 font-medium text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 disabled:opacity-60"
+            className="rounded-xl bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] px-5 py-4 font-semibold text-lg text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 disabled:opacity-60"
           >
             Aggiungi slot
           </button>
         </form>
 
         {slots.warning && (
-          <div className="mb-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800">
+          <div className="mb-3 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-base text-yellow-800">
             {slots.warning}
           </div>
         )}
 
         {slotsError && (
-          <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="mb-3 rounded-xl border border-red-200 bg-red-50 p-4 text-base text-red-700">
             {slotsError}
           </div>
         )}
 
         {slotsLoading ? (
-          <div className="rounded-lg border border-[#d4af37]/20 bg-[#d4af37]/10 p-3 text-sm text-[#d4af37] backdrop-blur-sm text-center font-bold">Caricamento slot...</div>
+          <div className="rounded-xl border border-[#d4af37]/20 bg-[#d4af37]/10 p-4 text-base text-[#d4af37] backdrop-blur-sm text-center font-bold">Caricamento slot...</div>
         ) : (
           <>
             <div className="mb-4">
-              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot prenotabili ({slots.availableSlots.length})</p>
+              <p className="mb-3 text-lg font-semibold text-[#d4af37]">Slot prenotabili ({slots.availableSlots.length})</p>
               <div className="flex flex-wrap gap-2">
                 {slots.availableSlots.length === 0 ? (
-                  <span className="text-sm text-[#d4af37]/60">Nessuno slot disponibile.</span>
+                  <span className="text-base text-[#d4af37]/60">Nessuno slot disponibile.</span>
                 ) : (
                   slots.availableSlots.map((time) => (
                     <button
@@ -413,7 +413,7 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => saveSlotOverride(slotDate, time, false)}
                       disabled={slotActionLoading}
-                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-sm text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
+                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-4 py-2 text-base text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
                     >
                       {time} - Disattiva
                     </button>
@@ -423,10 +423,10 @@ export default function AdminStaff() {
             </div>
 
             <div className="mb-4">
-              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot standard rimossi</p>
+              <p className="mb-3 text-lg font-semibold text-[#d4af37]">Slot standard rimossi</p>
               <div className="flex flex-wrap gap-2">
                 {slots.removedDefaultSlots.length === 0 ? (
-                  <span className="text-sm text-[#d4af37]/60">Nessuno slot standard rimosso.</span>
+                  <span className="text-base text-[#d4af37]/60">Nessuno slot standard rimosso.</span>
                 ) : (
                   slots.removedDefaultSlots.map((time) => (
                     <button
@@ -434,7 +434,7 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => deleteSlotOverride(slotDate, time)}
                       disabled={slotActionLoading}
-                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-sm text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
+                      className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-4 py-2 text-base text-[#d4af37] hover:bg-[#d4af37]/20 disabled:opacity-60"
                     >
                       {time} - Ripristina
                     </button>
@@ -444,10 +444,10 @@ export default function AdminStaff() {
             </div>
 
             <div>
-              <p className="mb-2 text-sm font-semibold text-[#d4af37]">Slot extra aggiunti</p>
+              <p className="mb-3 text-lg font-semibold text-[#d4af37]">Slot extra aggiunti</p>
               <div className="flex flex-wrap gap-2">
                 {slots.extraSlots.length === 0 ? (
-                  <span className="text-sm text-[#d4af37]/60">Nessuno slot extra.</span>
+                  <span className="text-base text-[#d4af37]/60">Nessuno slot extra.</span>
                 ) : (
                   slots.extraSlots.map((time) => (
                     <button
@@ -455,7 +455,7 @@ export default function AdminStaff() {
                       type="button"
                       onClick={() => deleteSlotOverride(slotDate, time)}
                       disabled={slotActionLoading}
-                      className="rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800 hover:bg-gray-200 disabled:opacity-60"
+                      className="rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-base text-gray-800 hover:bg-gray-200 disabled:opacity-60"
                     >
                       {time} - Rimuovi extra
                     </button>

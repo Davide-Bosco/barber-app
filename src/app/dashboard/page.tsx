@@ -35,12 +35,20 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
+
+type StaffSession = {
+  isStaff: boolean
+  isOwner: boolean
+  role: 'owner' | 'barber' | null
+  username: string | null
+}
     const timer = window.setTimeout(() => {
       void fetchBookings()
     }, 0)
 
     return () => window.clearTimeout(timer)
   }, [fetchBookings])
+  const [session, setSession] = useState<StaffSession>({ isStaff: false, isOwner: false, role: null, username: null })
 
   async function deleteBooking(id: number) {
     if (deletingId !== null) return
@@ -66,6 +74,24 @@ export default function Dashboard() {
     } finally {
       setDeletingId(null)
     }
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetch('/api/staff/session')
+        .then((response) => response.json())
+        .then((payload) => {
+          setSession({
+            isStaff: Boolean(payload?.isStaff),
+            isOwner: Boolean(payload?.isOwner),
+            role: payload?.role === 'owner' ? 'owner' : payload?.role === 'barber' ? 'barber' : null,
+            username: typeof payload?.username === 'string' ? payload.username : null,
+          })
+        })
+        .catch(() => setSession({ isStaff: false, isOwner: false, role: null, username: null }))
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [])
   }
 
   return (
@@ -117,17 +143,21 @@ export default function Dashboard() {
                 <td className="p-4 text-[#d4af37]/80">
                    {new Date(b.appointment_time).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                 </td>
-                <td className="p-4"><span className="bg-[#d4af37]/20 px-2 py-1 rounded text-xs text-[#d4af37] font-bold">{Array.isArray(b.barbers) ? b.barbers[0]?.name : b.barbers?.name}</span></td>
                 <td className="p-4 text-right">
-                  <button
-                    type="button"
-                    onClick={() => deleteBooking(b.id)}
-                    disabled={deletingId === b.id}
-                    className="text-red-400 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-                    aria-label="Cancella prenotazione"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  {session.isOwner ? (
+                    <button
+                      type="button"
+                      onClick={() => deleteBooking(b.id)}
+                      disabled={deletingId === b.id}
+                      className="inline-flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-200 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      <Trash2 size={16} />
+                      {deletingId === b.id ? 'Eliminazione...' : 'Elimina'}
+                    </button>
+                  ) : (
+                    <span className="text-xs uppercase tracking-widest text-[#d4af37]/40">Solo lettura</span>
+                  )}
+                </td>
                 </td>
               </tr>
             ))}

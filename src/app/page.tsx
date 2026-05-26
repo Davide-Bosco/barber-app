@@ -1,5 +1,6 @@
 import { supabase } from './lib/supabase'
 import Link from 'next/link'
+import { Star, Clock, ShieldCheck } from 'lucide-react'
 import BarberCard from './components/BarberCard'
 
 type Barber = {
@@ -40,17 +41,12 @@ export default async function Home() {
 
         <div className="max-w-2xl mx-auto relative z-10">
           <div className="text-center mb-8 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-[#d4af37] via-[#f4e4c1] to-[#d4af37] bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-[#d4af37] via-[#f4e4c1] to-[#d4af37] bg-clip-text text-transparent leading-tight">
               joker's style
             </h1>
-            <p className="text-sm text-[#d4af37]/80 font-light tracking-wide">
+            <p className="text-sm md:text-base text-[#d4af37]/80 font-light tracking-wide max-w-2xl mx-auto">
               Prenota il tuo taglio con gli esperti del settore
             </p>
-            <div className="mt-4 flex justify-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#d4af37]"></div>
-              <div className="w-2 h-2 rounded-full bg-[#d4af37]/50"></div>
-              <div className="w-2 h-2 rounded-full bg-[#d4af37]/30"></div>
-            </div>
           </div>
         </div>
       </section>
@@ -65,15 +61,15 @@ export default async function Home() {
       )}
 
       {/* BARBIERI CARDS */}
-      <section className="max-w-3xl mx-auto px-4 md:px-6 pb-16">
+      <section className="max-w-6xl mx-auto px-6 md:px-8 pb-16">
         {barbiere.length === 0 && !errorMessage ? (
           <div className="rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a]/50 to-[#2a2a2a]/50 p-12 text-center backdrop-blur-sm">
             <p className="text-[#d4af37]/60 text-lg">✨ Nessun barbiere disponibile al momento. Torna presto!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center items-start">
-            {barbiere.map((b) => (
-              <div key={b.id} className="animate-fade-in-up" >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            {barbiere.map((b, index) => (
+              <div key={b.id} className={`animate-fade-in-up ${index === 0 ? 'ml-6 md:ml-8 lg:ml-0' : ''}`}>
                 <BarberCard id={b.id} name={b.name} price={b.service_price} />
               </div>
             ))}
@@ -81,22 +77,7 @@ export default async function Home() {
         )}
       </section>
 
-      {/* INFO SECTION */}
-      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { icon: '⚡', title: 'Veloce', desc: 'Prenota in pochi secondi' },
-            { icon: '✓', title: 'Sicuro', desc: 'Conferma immediata via WhatsApp' },
-            { icon: '👑', title: 'Premium', desc: 'Servizi di qualità superiore' }
-          ].map((item, idx) => (
-            <div key={idx} className="rounded-xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a]/50 to-[#2a2a2a]/50 p-6 text-center backdrop-blur-sm hover:border-[#d4af37]/50 transition-all">
-              <div className="text-4xl mb-3">{item.icon}</div>
-              <h3 className="text-lg font-bold text-[#f8f8f8] mb-2">{item.title}</h3>
-              <p className="text-[#d4af37]/60 text-sm">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Info section removed per design request */}
     </div>
   )
 }

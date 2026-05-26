@@ -40,6 +40,83 @@ body {
   position: relative;
 }
 
+/* Design tokens and layout utilities */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --container-max: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+/* Central page container to keep content away from edges */
+.site-container {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Card component (default) */
+.card {
+  background: linear-gradient(180deg, rgba(16,16,16,0.9), rgba(10,10,10,0.8));
+  border: 1px solid rgba(216,167,56,0.09);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+}
+
+/* Rectangular card variant used for barber cards */
+.card-rect {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+  border-radius: 14px;
+  padding: 16px;
+  background: linear-gradient(180deg, #080808 0%, #111 100%);
+  border: 1px solid rgba(184,134,11,0.12); /* dark gold */
+}
+
+/* Primary button */
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(90deg, #b8860b 0%, #f4e4c1 100%);
+  color: #0a0a0a;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-align: center;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 6px 14px rgba(184,134,11,0.12);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(184,134,11,0.18); }
+
+/* Large CTA */
+.btn-lg { padding: 12px 18px; font-size: 1rem; }
+
+/* Grid utilities */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+@media (min-width: 640px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* Utility for subtle divider */
+.divider-subtle { height: 1px; background: linear-gradient(to right, transparent, rgba(212,175,55,0.12), transparent); margin: 8px 0; }
+
+/* Small layout helpers */
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 1rem; }
+.text-muted { color: rgba(248,248,248,0.72); }
+
+
 /* Premium Gold Background Accent */
 body::before {
   content: '';

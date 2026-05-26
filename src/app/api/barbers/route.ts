@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { isStaffCookieValue, STAFF_COOKIE_NAME } from '@/app/lib/staffAuth'
+import { isOwnerCookieValue, STAFF_COOKIE_NAME } from '@/app/lib/staffAuth'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 
@@ -36,7 +36,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+	if (!isOwnerCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
     return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
   }
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-	if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+	if (!isOwnerCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
 		return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
 	}
 

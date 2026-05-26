@@ -39,38 +39,40 @@ export default function StaffRegisterPage() {
   }
 
   return (
-    <div className="mx-auto mt-12 max-w-md rounded-2xl border border-[#d4af37]/18 bg-gradient-to-br from-[#111] to-[#171717] p-6">
-      <h1 className="text-2xl font-semibold text-[#f8f8f8] mb-2">Registrazione Staff</h1>
-      <p className="text-sm text-[#d4af37]/70 mb-4">Crea un account staff. Se esistono già utenti, questa operazione richiede autorizzazione.</p>
+    <div className="mx-auto mt-12 max-w-lg px-4">
+      <div className="card p-8 lg:p-10">
+        <h1 className="text-3xl font-semibold text-[#f8f8f8] mb-3">Registrazione Staff</h1>
+        <p className="text-lg leading-relaxed text-[#d4af37]/70 mb-8">Crea un account staff. Se esistono già utenti, questa operazione richiede autorizzazione.</p>
 
-      {message && (
-        <div className="mb-4 text-sm text-[#d4af37]">{message}</div>
-      )}
+        {message && (
+          <div className="mb-5 rounded-xl border border-[#d4af37]/30 bg-[#d4af37]/10 p-4 text-base text-[#d4af37]">{message}</div>
+        )}
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          className="w-full rounded-md bg-[#0a0a0a] border border-[#d4af37]/12 p-3 text-[#f8f8f8]"
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            className="w-full rounded-xl bg-[#0a0a0a] border border-[#d4af37]/12 p-4 text-xl text-[#f8f8f8] placeholder-[#d4af37]/40"
+            required
+          />
 
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password (min 8 caratteri)"
-          className="w-full rounded-md bg-[#0a0a0a] border border-[#d4af37]/12 p-3 text-[#f8f8f8]"
-          minLength={8}
-          required
-        />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password (min 8 caratteri)"
+            className="w-full rounded-xl bg-[#0a0a0a] border border-[#d4af37]/12 p-4 text-xl text-[#f8f8f8] placeholder-[#d4af37]/40"
+            minLength={8}
+            required
+          />
 
-        <button type="submit" disabled={loading} className="w-full rounded-md bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] p-3 font-semibold text-[#0a0a0a]">
-          {loading ? 'Registrazione...' : 'Registrati come Staff'}
-        </button>
-      </form>
+          <button type="submit" disabled={loading} className="btn-primary btn-lg w-full text-xl">
+            {loading ? 'Registrazione...' : 'Registrati come Staff'}
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

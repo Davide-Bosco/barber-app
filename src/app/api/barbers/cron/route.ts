@@ -31,19 +31,42 @@ export async function GET(request: Request) {
   try {
     const todayStr = getRomeDateString()
 
-    const { data: bookings, error } = await supabase
+    const selectWithReminder = `
+      id,
+      customer_name,
+      customer_phone,
+      appointment_time,
+      reminder_enabled,
+      barbers ( name ),
+      status
+    `
+
+    let { data: bookings, error } = await supabase
       .from('bookings')
-      .select(`
-        id,
-        customer_name,
-        customer_phone,
-        appointment_time,
-        barbers ( name ),
-        status
-      `)
+      .select(selectWithReminder)
       .gte('appointment_time', `${todayStr}T00:00:00`)
       .lte('appointment_time', `${todayStr}T23:59:59`)
       .eq('status', 'confirmed')
+
+    // fallback compatibilità: se la colonna reminder_enabled non esiste, continua come prima
+    if (error && error.code === '42703') {
+      const fallback = await supabase
+        .from('bookings')
+        .select(`
+          id,
+          customer_name,
+          customer_phone,
+          appointment_time,
+          barbers ( name ),
+          status
+        `)
+        .gte('appointment_time', `${todayStr}T00:00:00`)
+        .lte('appointment_time', `${todayStr}T23:59:59`)
+        .eq('status', 'confirmed')
+
+      bookings = fallback.data
+      error = fallback.error
+    }
 
     if (error) throw error
     if (!bookings || bookings.length === 0) {
@@ -52,6 +75,10 @@ export async function GET(request: Request) {
 
     let sentCount = 0
     for (const booking of bookings) {
+      if ('reminder_enabled' in booking && booking.reminder_enabled !== true) {
+        continue
+      }
+
       const time = getRomeTimeString(new Date(booking.appointment_time))
       const barber = Array.isArray(booking.barbers) ? booking.barbers[0] : booking.barbers
       const phone = booking.customer_phone
@@ -72,8 +99,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, messaggiInviati: sentCount })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Errore nel Cron Job:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    const message = error instanceof Error ? error.message : 'Errore nel Cron Job'
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

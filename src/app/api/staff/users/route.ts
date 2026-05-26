@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { isStaffCookieValue, STAFF_COOKIE_NAME } from '@/app/lib/staffAuth'
+import { isOwnerCookieValue, STAFF_COOKIE_NAME } from '@/app/lib/staffAuth'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 
@@ -30,24 +30,26 @@ const supabase = createClient(
   }
 )
 
-async function usersCount() {
-  const { count, error } = await supabase.from('staff_users').select('*', { head: true, count: 'exact' })
-  if (error) return 0
-  // @ts-ignore
-  return count ?? 0
-}
-
 export async function GET(request: NextRequest) {
+  if (!isOwnerCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+    return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
+  }
+
   try {
-    const { data, error } = await supabase.from('staff_users').select('id, username').order('id')
+    const { data, error } = await supabase.from('staff_users').select('id, username, role').order('id')
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ data })
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message ?? 'Errore' }, { status: 500 })
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : 'Errore'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
+  if (!isOwnerCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+    return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
+  }
+
   const body = await request.json().catch(() => null)
   const username = typeof body?.username === 'string' ? body.username.trim() : ''
   const password = typeof body?.password === 'string' ? body.password : ''
@@ -56,17 +58,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Username obbligatorio e password di almeno 8 caratteri.' }, { status: 400 })
   }
 
-  // allow creation if no users exist (bootstrap), otherwise require staff cookie
-  const total = await usersCount()
-  if (total > 0) {
-    if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
-      return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
-    }
-  }
-
   const hashed = bcrypt.hashSync(password, 10)
 
-  const { error } = await supabase.from('staff_users').insert([{ username, password_hash: hashed }])
+  const { error } = await supabase.from('staff_users').insert([{ username, password_hash: hashed, role: 'barber' }])
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   return NextResponse.json({ ok: true })
@@ -80,7 +74,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Id non valido.' }, { status: 400 })
   }
 
-  if (!isStaffCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
+  if (!isOwnerCookieValue(request.cookies.get(STAFF_COOKIE_NAME)?.value)) {
     return NextResponse.json({ error: 'Non autorizzato.' }, { status: 401 })
   }
 

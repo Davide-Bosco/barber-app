@@ -46,7 +46,15 @@ export async function sendWhatsAppMessage(input: WhatsAppMessageInput) {
   }
 
   if (!response.ok) {
-    throw new Error(typeof result === 'string' ? result : 'Errore invio WhatsApp')
+    if (typeof result === 'string') {
+      throw new Error(result)
+    }
+
+    if (result && typeof result === 'object') {
+      throw new Error(JSON.stringify(result))
+    }
+
+    throw new Error('Errore invio WhatsApp')
   }
 
   return result
