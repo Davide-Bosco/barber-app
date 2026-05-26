@@ -71,7 +71,7 @@ export default function PwaInstallPrompt() {
           </div>
           
           <p className="text-sm text-[#f8f8f8] mb-5 leading-relaxed font-medium">
-            Installa Il Tuo Barbiere come app sul tuo telefono per accesso più veloce e un'esperienza premium!
+            Installa Joker's Style come app sul tuo telefono per accesso più veloce e un'esperienza premium!
           </p>
           
           <div className="flex gap-3">

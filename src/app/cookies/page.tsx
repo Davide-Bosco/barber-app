@@ -16,26 +16,26 @@ export default function CookiesPage() {
         {/* Header */}
         <div className="mb-10 animate-fade-in-up">
           <div className="flex items-center gap-4 mb-4">
-            <div className="bg-gradient-to-br from-[#8b0099] via-[#d41a1a] to-[#d4af37] p-3 rounded-lg animate-joker-pulse">
-              <Cookie size={28} className="text-[#f8f8f8]" />
+            <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-3 rounded-lg">
+              <Cookie size={28} className="text-[#0a0a0a]" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] bg-clip-text text-transparent uppercase tracking-tighter">
+            <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[#d4af37] via-[#f4e4c1] to-[#d4af37] bg-clip-text text-transparent tracking-tighter">
               Cookie Policy
             </h1>
           </div>
-          <p className="text-[#d41a1a] font-bold italic">🃏 How We Track Your Laughs</p>
+          <p className="text-[#d4af37] font-semibold">Informativa sui cookie — in linea con lo stile del sito</p>
         </div>
 
         {/* Content Card */}
-        <div className="rounded-2xl border-2 border-[#8b0099]/50 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-8 md:p-10 backdrop-blur-sm space-y-6 hover:border-[#d41a1a] transition-colors">
+        <div className="rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-6 md:p-8 backdrop-blur-sm space-y-6 hover:border-[#d4af37]/40 transition-colors">
           
           <p className="text-[#f8f8f8] text-lg leading-relaxed">
             Utilizziamo i cookie per migliorare l'esperienza sul nostro sito. Scopri come gestiamo e utilizziamo i tuoi dati per personalizzare il tuo servizio. 🃏
           </p>
 
           {/* Cookies Types */}
-          <div className="border-2 border-[#8b0099]/40 bg-gradient-to-br from-[#8b0099]/15 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-            <p className="font-black text-[#d41a1a] mb-4 flex items-center gap-2 uppercase tracking-widest">
+          <div className="border border-[#d4af37]/12 bg-gradient-to-br from-[#d4af37]/8 to-[#0a0a0a]/50 rounded-xl p-4 backdrop-blur-sm hover:border-[#d4af37]/30 transition-colors">
+            <p className="font-black text-[#d4af37] mb-4 flex items-center gap-2 uppercase tracking-widest">
               <span className="text-xl">🍪</span>
               Tipi di Cookie Utilizzati
             </p>
@@ -46,13 +46,13 @@ export default function CookiesPage() {
                   Essenziali per il funzionamento del sito: autenticazione staff, sessioni, preferenze di navigazione
                 </p>
               </div>
-              <div className="border-t border-[#8b0099]/20 pt-3">
+              <div className="border-t border-[#d4af37]/12 pt-3">
                 <p className="text-[#d4af37] font-black text-sm uppercase">📊 COOKIE ANALITICI (OPZIONALI)</p>
                 <p className="text-[#f8f8f8]/80 text-sm mt-1">
                   Per misurare come utilizzi il sito e migliorare l'esperienza. Completamente opzionali e anonimizzati
                 </p>
               </div>
-              <div className="border-t border-[#8b0099]/20 pt-3">
+              <div className="border-t border-[#d4af37]/12 pt-3">
                 <p className="text-[#d4af37] font-black text-sm uppercase">⚙️ COOKIE DI PREFERENZA (OPZIONALI)</p>
                 <p className="text-[#f8f8f8]/80 text-sm mt-1">
                   Per ricordare le tue scelte e preferenze durante le visite future
@@ -62,8 +62,8 @@ export default function CookiesPage() {
           </div>
 
           {/* Consent Management */}
-          <div className="border-2 border-[#8b0099]/40 bg-gradient-to-br from-[#8b0099]/15 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-            <p className="font-black text-[#d41a1a] mb-3 flex items-center gap-2 uppercase tracking-widest">
+          <div className="border border-[#d4af37]/12 bg-gradient-to-br from-[#d4af37]/8 to-[#0a0a0a]/50 rounded-xl p-4 backdrop-blur-sm hover:border-[#d4af37]/30 transition-colors">
+            <p className="font-black text-[#d4af37] mb-3 flex items-center gap-2 uppercase tracking-widest">
               <span className="text-xl">✓</span>
               Gestione dei Tuoi Consensi
             </p>
@@ -73,8 +73,8 @@ export default function CookiesPage() {
           </div>
 
           {/* Cookie Details */}
-          <div className="border-2 border-[#8b0099]/40 bg-gradient-to-br from-[#8b0099]/15 to-[#0a0a0a]/50 rounded-xl p-6 backdrop-blur-sm hover:border-[#d41a1a] transition-colors">
-            <p className="font-black text-[#d41a1a] mb-3 flex items-center gap-2 uppercase tracking-widest">
+          <div className="border border-[#d4af37]/12 bg-gradient-to-br from-[#d4af37]/8 to-[#0a0a0a]/50 rounded-xl p-4 backdrop-blur-sm hover:border-[#d4af37]/30 transition-colors">
+            <p className="font-black text-[#d4af37] mb-3 flex items-center gap-2 uppercase tracking-widest">
               <span className="text-xl">📋</span>
               Cookie Specifici Utilizzati
             </p>
@@ -86,13 +86,13 @@ export default function CookiesPage() {
           </div>
 
           {/* CTA */}
-          <div className="border-t-2 border-[#8b0099]/40 pt-6 text-center">
-            <p className="text-[#d4af37] text-sm mb-4 font-black">
-              Hai dubbi su come utilizziamo i cookie? Contattaci! 🃏
+          <div className="border-t border-[#d4af37]/12 pt-6 text-center">
+            <p className="text-[#d4af37] text-sm mb-4 font-semibold">
+              Hai dubbi su come utilizziamo i cookie? Contattaci!
             </p>
             <Link 
               href="/"
-              className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-[#8b0099] via-[#d41a1a] to-[#d4af37] text-[#0a0a0a] font-black hover:shadow-lg hover:shadow-[#d41a1a]/50 transition-all duration-300 uppercase tracking-widest"
+              className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] font-semibold hover:shadow-lg hover:shadow-[#d4af37]/30 transition-all duration-200 text-base"
             >
               Back to Joker's Style
             </Link>

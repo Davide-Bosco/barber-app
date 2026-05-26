@@ -12,14 +12,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 // Questi sono i metadati per la SEO e per il nome della PWA
 export const metadata: Metadata = {
-  title: "Barber Booking",
+  title: "Joker's Style",
   description: "Prenota il tuo taglio velocemente",
   manifest: "/manifest.json", // Servirà per la PWA nel prossimo step!
-  applicationName: "Barber Booking",
+  applicationName: "Joker's Style",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Barber Booking",
+    title: "Joker's Style",
   },
   icons: {
     icon: [
@@ -45,7 +45,7 @@ export default async function RootLayout({
         
         {/* PREMIUM NAVBAR - ELEGANT GOLD & BLACK */}
         <nav className="sticky top-0 z-50 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] border-b border-[#d4af37]/20 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+          <div className="max-w-5xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex justify-between items-center">
             
             {/* Logo */}
             <Link href="/" className="group flex items-center gap-3 hover:opacity-80 transition">
@@ -54,7 +54,7 @@ export default async function RootLayout({
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-lg tracking-wider bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
-                  IL TUO BARBIERE
+                  joker's style
                 </span>
                 <span className="text-xs text-[#d4af37]/60">Premium Barbershop</span>
               </div>
@@ -96,7 +96,7 @@ export default async function RootLayout({
         </nav>
 
         {/* Main Content */}
-        <main className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#1a1a1a] to-[#2a2a2a] pb-20">
+        <main className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#1a1a1a] to-[#2a2a2a] pb-20 px-6 md:px-8 lg:px-12">
           {children}
         </main>
 

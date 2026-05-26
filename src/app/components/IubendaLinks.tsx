@@ -25,7 +25,7 @@ export default function IubendaLinks() {
 
   return (
     <footer className="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-t border-[#d4af37]/20 text-[#f8f8f8] p-8 md:p-12 mt-16">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         
         {/* Links Section */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-8 text-center md:text-left">
@@ -65,7 +65,7 @@ export default function IubendaLinks() {
 
         {/* Copyright */}
         <div className="text-center text-[#d4af37]/60 text-sm">
-          <p>© {new Date().getFullYear()} Il Tuo Barbiere. Tutti i diritti riservati.</p>
+          <p>© {new Date().getFullYear()} Joker's Style. Tutti i diritti riservati.</p>
           <p className="mt-2 text-xs text-[#d4af37]/40">Crafted with ✨ for your premium barbershop experience</p>
         </div>
       </div>
