@@ -32,21 +32,21 @@ export default async function Home() {
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#1a1a1a] to-[#2a2a2a]">
       
       {/* HERO SECTION PREMIUM */}
-      <section className="relative overflow-hidden px-4 md:px-6 py-12 md:py-20">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 right-10 w-96 h-96 bg-[#d4af37]/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#d4af37]/5 rounded-full blur-3xl"></div>
+      <section className="relative overflow-hidden px-6 md:px-8 py-14 md:py-18">
+        <div className="absolute inset-0 opacity-12">
+          <div className="absolute top-12 right-16 w-72 h-72 bg-[#d4af37]/8 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-12 left-16 w-72 h-72 bg-[#d4af37]/6 rounded-full blur-3xl"></div>
         </div>
-        
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="text-center mb-10 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-semibold mb-3 bg-gradient-to-r from-[#d4af37] via-[#f4e4c1] to-[#d4af37] bg-clip-text text-transparent">
+
+        <div className="max-w-2xl mx-auto relative z-10">
+          <div className="text-center mb-8 animate-fade-in-up">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-[#d4af37] via-[#f4e4c1] to-[#d4af37] bg-clip-text text-transparent">
               joker's style
             </h1>
-            <p className="text-base text-[#d4af37]/80 font-light tracking-wide">
+            <p className="text-sm text-[#d4af37]/80 font-light tracking-wide">
               Prenota il tuo taglio con gli esperti del settore
             </p>
-            <div className="mt-6 flex justify-center gap-2">
+            <div className="mt-4 flex justify-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[#d4af37]"></div>
               <div className="w-2 h-2 rounded-full bg-[#d4af37]/50"></div>
               <div className="w-2 h-2 rounded-full bg-[#d4af37]/30"></div>

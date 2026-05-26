@@ -45,14 +45,14 @@ export default async function RootLayout({
         
         {/* PREMIUM NAVBAR - ELEGANT GOLD & BLACK */}
         <nav className="sticky top-0 z-50 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] border-b border-[#d4af37]/20 backdrop-blur-sm">
-          <div className="max-w-5xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex justify-between items-center">
+          <div className="max-w-4xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex flex-col items-center">
             
-            {/* Logo */}
-            <Link href="/" className="group flex items-center gap-3 hover:opacity-80 transition">
-              <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-2 rounded-lg">
-                <Scissors size={24} className="text-[#0a0a0a]" />
+            {/* Logo centered */}
+            <Link href="/" className="group flex flex-col items-center gap-1 hover:opacity-90 transition">
+              <div className="bg-gradient-to-br from-[#d4af37] to-[#f4e4c1] p-2 rounded-md">
+                <Scissors size={22} className="text-[#0a0a0a]" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col items-center">
                 <span className="font-bold text-lg tracking-wider bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] bg-clip-text text-transparent">
                   joker's style
                 </span>
@@ -60,23 +60,23 @@ export default async function RootLayout({
               </div>
             </Link>
 
-            {/* Menu Navigazione */}
-            <div className="flex gap-8 md:gap-12 items-center">
+            {/* Menu centered below logo */}
+            <div className="mt-3 flex gap-6 items-center">
               <Link href="/" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
-                <Home size={20} /> <span className="hidden sm:inline">Prenota</span>
+                <Home size={18} /> <span className="hidden sm:inline">Prenota</span>
               </Link>
 
               {isStaff ? (
                 <>
                   <Link href="/dashboard" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
-                    <CalendarDays size={20} /> <span className="hidden sm:inline">Appuntamenti</span>
+                    <CalendarDays size={18} /> <span className="hidden sm:inline">Appuntamenti</span>
                   </Link>
 
                   <Link href="/admin" className="flex items-center gap-2 text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
-                    <Users size={20} /> <span className="hidden sm:inline">Gestione</span>
+                    <Users size={18} /> <span className="hidden sm:inline">Gestione</span>
                   </Link>
 
-                  <div className="flex items-center gap-4 border-l border-[#d4af37]/20 pl-8">
+                  <div className="flex items-center gap-3">
                     {staffUsername && <span className="hidden sm:inline text-sm text-[#d4af37]">👤 {staffUsername}</span>}
                     <form action="/api/staff/logout" method="post">
                       <button type="submit" className="cursor-pointer text-[#f8f8f8] hover:text-[#d4af37] transition-colors duration-300 font-medium">
@@ -86,8 +86,8 @@ export default async function RootLayout({
                   </div>
                 </>
               ) : (
-                <Link href="/staff-login" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] hover:shadow-lg hover:shadow-[#d4af37]/30 transition-all duration-300 font-semibold text-sm">
-                  <Users size={18} /> <span className="hidden sm:inline">Staff</span>
+                <Link href="/staff-login" className="flex items-center gap-2 px-3 py-1 rounded-md bg-gradient-to-r from-[#d4af37] to-[#f4e4c1] text-[#0a0a0a] hover:shadow-md transition-all duration-300 font-semibold text-sm">
+                  <Users size={16} /> <span className="hidden sm:inline">Staff</span>
                 </Link>
               )}
             </div>
